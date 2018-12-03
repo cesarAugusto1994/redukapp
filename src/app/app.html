@@ -1,17 +1,30 @@
 <ion-menu [content]="content">
   <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
+    <ion-toolbar color="app_color">
+      <ion-title><!--<img src="./assets/imgs/logo_navbar_2.png" class="logo-size" width="128" alt="Reduk">-->Reduk</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+  <ion-content class="container">
+    <div class="sidemenu-header" *ngIf="nome">
+      <div class="box-avatar">
+          <img class="avatar" *ngIf="avatar" src="{{avatar}}"/>
+          <h2 class="avatar-title" *ngIf="nome">{{nome}}</h2>
+      </div>
+    </div>
     <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+      <button class="button-list" menuClose no-lines ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon [name]="p.icon"></ion-icon>&nbsp;&nbsp;&nbsp;{{p.title}}
       </button>
     </ion-list>
   </ion-content>
+
+  <ion-footer no-border>
+      <button ion-button color="app_color" menuClose (click)="logoutClicked()" block detail-none>
+        <ion-icon name="close" class="icone-white"></ion-icon>
+        &nbsp; SAIR
+      </button>
+  </ion-footer>
 
 </ion-menu>
 

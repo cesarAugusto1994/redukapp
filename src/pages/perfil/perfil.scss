@@ -1,0 +1,46 @@
+page-perfil {
+
+  ion-header {
+    .toolbar {
+      position: fixed;
+
+      .toolbar-background {
+        background: transparent;
+      }
+      .toolbar-title {
+        color: black;
+      }
+    }
+
+    .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus)
+    .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus)
+    .item-inner {
+        border-bottom-color: none;
+        box-shadow: none;
+    }
+
+  }
+
+  .row {
+
+      box-sizing: border-box;
+      background-color:#AD1E24;
+  }
+
+  .col-md-4 {
+      width: 33.33333333%;
+      position: relative;
+      min-height: 1px;
+      padding-right: 15px;
+      padding-left: 15px;
+      box-sizing: border-box;
+      text-align:center;
+      padding:1em 0.9em;
+      color: white;
+  }
+
+  .border-top {
+    border-top: 1px inset white;
+  }
+
+}

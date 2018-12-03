@@ -1,0 +1,89 @@
+page-login {
+
+  .login-content {
+    background: #f3f3f4;
+
+    .logo-row {
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+
+    .login-box {
+      background: white;
+      /*padding: 20px 20px 0px 20px;*/
+      margin-top: 30px;
+    }
+
+    .colimage {
+      text-align: center;
+    }
+
+    ion-row {
+       align-items: center;
+       text-align: center;
+     }
+
+     ion-item {
+         /*border-radius: 30px !important;*/
+
+         font-size: 0.9em;
+         margin-bottom: 10px;
+         border: 1px solid #ffffff;
+         border-bottom: 0px !important;
+         box-shadow: none !important;
+     }
+
+     ion-input {
+        border: 1px solid #e5e6e7;
+        font-size: 14px;
+     }
+
+     .col {
+       padding:0;
+     }
+
+     .signup-col {
+       margin: 0px 16px 0px 16px;
+       padding-bottom: 20px;
+     }
+
+     .item-inner {
+       border-bottom-color: #ffffff !important;
+       box-shadow: none !important;
+     }
+
+     .submit-btn {
+       background: #ed5565;
+       /*border-radius: 30px !important;*/
+       /*border: 1px solid #ffffff;*/
+     }
+
+     .register-btn {
+       color: #ffffff;
+       font-size: 0.8em;
+     }
+
+     h2 {
+       font-size: 24px;
+       font-weight: 100;
+       text-align: center;
+       line-height: 1.1;
+       margin-top: 10px !important;
+       color: inherit;
+       font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+     }
+
+     .logo {
+       background-image: url("../assets/imgs/logo_principal.png");
+       /*width: 328px;*/
+       height: 123px;
+       position: relative;
+       text-align: center;
+       margin-top: 0;
+       background-size: 328px 123px;
+       background-repeat: no-repeat;
+       background-position: center;
+     }
+  }
+
+}

@@ -14,3 +14,69 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+
+.container {
+  background-color:#fff;
+  color:white;
+}
+
+.sidemenu-header {
+  text-align:center;
+}
+
+.box-perfil {
+  width:100%;
+  background-color:#2f4050;
+  padding:2em 5em;
+}
+
+.button-list {
+  background-color:#fff;
+  //color:white;
+  border-bottom-color:#2f4050;
+}
+
+.logo {
+  width:100%;
+}
+
+.avatar {
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  width:40%;
+}
+
+.box-avatar {
+  width:100%;
+  background-color:#AD1E24;
+  padding:1em 2em;
+  text-align:center;
+}
+
+.avatar-title {
+  color: white;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.header-box {
+  background-color:#AD1E24;
+  height:50px;
+  margin-bottom:0;
+}
+
+.header-box-title {
+    background-color:#AD1E24;
+    height:50px;
+    text-align:center;
+    margin-top:-10px;
+    font-size: 16px;
+}
+
+.header-title {
+    margin-top:0;
+    padding-top:15px;
+    color:white;
+    font-size: 16px;
+}

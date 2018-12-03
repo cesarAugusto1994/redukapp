@@ -1,18 +1,38 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger" transparent no-border>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title></ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content  class="has-header">
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <div class="header-box"></div>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <img class="logo" src="./assets/imgs/logo_navbar_2.png"/>
+
+  <div class="header-box-title"><p class="header-title">Início</p></div>
+
+  <div padding>
+
+      <h5>Suas Consultas</h5>
+
+      <ion-list no-lines>
+        <ion-item *ngFor ="let consulta of itens">
+          <ion-avatar item-start>
+              {{consulta.horario}}
+          </ion-avatar>
+          <h2>Agendada para: {{consulta.data}}</h2>
+          <p>Observações:{{consulta.notas}} </p>
+          <p *ngIf="consulta.status == 'Pendente'" style="color: #f8ac59;">Situação: {{consulta.status}} </p>
+          <p *ngIf="consulta.status == 'Finalizada'" style="color: #1ab394;">Situação: {{consulta.status}} </p>
+          <p *ngIf="consulta.status == 'Cancelada'" style="color: #ed5565;">Situação: {{consulta.status}} </p>
+          <p *ngIf="consulta.status == 'Em Atendimento'" style="color: #23c6c8;">Situação: {{consulta.status}} </p>
+        </ion-item>
+      </ion-list>
+
+  </div>
+
 </ion-content>

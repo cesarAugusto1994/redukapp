@@ -1,0 +1,54 @@
+<!--
+  Generated template for the RecomendacaoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="danger" transparent>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-buttons end>
+      <button padding ion-button (click)="backToHome()">
+        Retornar
+      </button>
+    </ion-buttons>
+
+    <ion-title></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <div class="header-box"></div>
+
+  <img class="logo" src="./assets/imgs/logo_navbar_2.png"/>
+
+  <div class="header-box-title"><p class="header-title">Recomendações</p></div>
+
+  <div padding>
+
+    <ion-item-group>
+        <ion-item-divider color="light">Atividades Fisicas</ion-item-divider>
+        <ion-list no-lines>
+          <ion-item *ngFor ="let atividade of atividades" >{{atividade.nome}}<p>{{atividade.duracao}} {{atividade.tempo}} {{atividade.repeticoes}}</p></ion-item>
+        </ion-list>
+        <ion-item-divider color="light">Alimentos Evitados</ion-item-divider>
+        <ion-list no-lines>
+          <ion-item *ngFor ="let alimento of alimentos" >{{alimento.nome}}</ion-item>
+        </ion-list>
+        <ion-item-divider color="light">Injestão de Água</ion-item-divider>
+        <ion-list no-lines>
+          <ion-item>{{injestao}}</ion-item>
+        </ion-list>
+        <ion-item-divider color="light">Outras Recomendações</ion-item-divider>
+        <div padding>{{recomendacoes}}</div>
+    </ion-item-group>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,84 @@
+<!--
+  Generated template for the PerfilPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="danger" transparent>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-buttons end>
+      <button padding ion-button (click)="backToHome()">
+        Retornar
+      </button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <div class="header-box"></div>
+
+  <img class="logo" src="./assets/imgs/logo_navbar_2.png"/>
+
+  <div class="header-box-title"><p class="header-title">Perfil</p></div>
+
+  <div class="box-avatar" *ngIf="paciente">
+
+      <img class="avatar" src="{{paciente.avatar}}">
+
+      <h5 class="avatar-title" *ngIf="paciente">{{paciente.nome}}</h5>
+
+  </div>
+
+  <div class="row border-top">
+
+    <div class="col-md-4">
+
+      <small>Email</small>
+      <p *ngIf="paciente">{{paciente.email}}</p>
+
+    </div>
+
+    <div class="col-md-4">
+
+      <small>Nascimento</small>
+      <p *ngIf="paciente">{{paciente.nascimento_formatado}}</p>
+
+    </div>
+
+    <div class="col-md-4">
+
+      <small>Telefone</small>
+      <p *ngIf="paciente">{{paciente.telefone}}</p>
+
+    </div>
+
+  </div>
+
+  <div padding>
+
+      <ion-list no-lines *ngIf="paciente">
+        <ion-item><p>Gênero</p><h2>{{ paciente.sexo == 'M' ? 'Masculino' : 'Feminino' }}</h2></ion-item>
+        <ion-item><p>Ocupação</p><h2>{{ paciente.ocupacao }}</h2></ion-item>
+        <ion-item><p>CEP</p><h2>{{ paciente.cep }}</h2></ion-item>
+        <ion-item><p>Endereço</p><h2>{{ paciente.endereco }}</h2></ion-item>
+        <ion-item><p>Número</p><h2>{{ paciente.numero }}</h2></ion-item>
+        <ion-item><p>Cidade</p><h2>{{ paciente.cidade }}</h2></ion-item>
+        <ion-item><p>Estado</p><h2>{{ paciente.estado }}</h2></ion-item>
+      </ion-list>
+
+  </div>
+
+  <ion-fab right bottom>
+    <button color="app_color" ion-fab (click)="toEdit()">
+        <ion-icon ios="ios-create" md="md-create"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>
