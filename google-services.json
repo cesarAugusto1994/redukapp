@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "614131769936",
+    "firebase_url": "https://reduk-3f534.firebaseio.com",
+    "project_id": "reduk-3f534",
+    "storage_bucket": "reduk-3f534.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614131769936:android:8aa6e57c64ea5824",
+        "android_client_info": {
+          "package_name": "com.flyyyer.reduk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614131769936-91r2j796mhna6ol5nnlm4k1uc815tcns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3tAMQg7s2qTYRs35yhRoXR3-qKssOWGA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -32,6 +32,10 @@
 
       <img class="avatar" src="{{paciente.avatar}}">
 
+      <button ion-button icon-only class="button-camera" (click)="getImage()">
+        <ion-icon name="camera"></ion-icon>
+      </button>
+
       <h5 class="avatar-title" *ngIf="paciente">{{paciente.nome}}</h5>
 
   </div>

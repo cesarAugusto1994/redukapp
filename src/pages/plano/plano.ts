@@ -27,6 +27,8 @@ export class PlanoPage {
 
   public planos: any;
 
+  public hasplanos = false;
+
   constructor(public http: HttpClient, public auth: AuthProvider, public navCtrl: NavController, public navParams: NavParams, private db: Db) {
   }
 
@@ -34,6 +36,7 @@ export class PlanoPage {
 
     this.getData().then(data=>{
         this.planos = data;
+        this.hasplanos = data ? true : false;
     });
 
   }
@@ -46,24 +49,29 @@ export class PlanoPage {
 
       let index = 'planos';
 
-      if(this.db.exist(index)) {
-        return this.db.get(index);
-      }
+      return this.db.exist(index).then(response=>{
 
-      this.getPlanos()
-      .then(data => {
-          if(data) {
-            this.planos = data;
-            this.db.create(index, data);
-          }
+        if(!response) {
+
+            this.getPlanos()
+            .then(data => {
+                if(data) {
+                  this.planos = data;
+                  this.db.create(index, data);
+                }
+            });
+
+        }
+
+        return this.db.get(index);
+
       });
 
-      return this.db.get(index);
   }
 
   public getPlanos() {
 
-      let authKey = "Bearer "+this.auth.token;
+      let authKey = this.auth.getToken();
 
       const httpOptions = {
         headers: new HttpHeaders({

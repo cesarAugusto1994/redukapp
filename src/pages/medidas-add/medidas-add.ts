@@ -80,7 +80,7 @@ export class MedidasAddPage {
 
   public post(postData){
 
-    let authKey = "Bearer "+this.auth.token;
+    let authKey = this.auth.getToken();
 
     const httpOptions = {
       headers: new HttpHeaders({

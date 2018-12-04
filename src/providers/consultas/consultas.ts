@@ -29,23 +29,28 @@ export class ConsultasProvider {
 
       let index = 'consultas';
 
-      if(this.db.exist(index)) {
-        return this.db.get(index);
-      }
+      return this.db.exist(index).then(response=>{
 
-      this.getConsultas()
-      .then(data => {
-          this.itens = (data);
-          this.db.create(index, data);
-          this.hasConsultas = this.itens ? true : false;
+        if(!response) {
+
+          this.getConsultas()
+          .then(data => {
+              this.itens = (data);
+              this.db.create(index, data);
+              this.hasConsultas = this.itens ? true : false;
+          });
+
+        }
+
+        return this.db.get(index);
+
       });
 
-      return this.db.get(index);
   }
 
   public getConsultas() {
 
-      let authKey = "Bearer "+this.auth.token;
+      let authKey = this.auth.getToken();
 
       const httpOptions = {
         headers: new HttpHeaders({
@@ -55,12 +60,8 @@ export class ConsultasProvider {
         })
       };
 
-      let postData = {
-        token: "Bearer "+this.auth.token,
-      }
-
       return new Promise(resolve => {
-        this.http.get(CONSTANTS.API_ENDPOINT_CONSULTAS, httpOptions)
+        this.http.get(CONSTANTS.API_ENDPOINT_CONSULTAS+'?token='+authKey, httpOptions)
           .subscribe(
             data => {
 

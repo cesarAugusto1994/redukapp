@@ -58,7 +58,7 @@ export class PacienteProvider {
 
   public getPacientes(): Observable<Paciente> {
 
-    let authKey = this.authProvider.token;
+    let authKey = this.authProvider.getToken();
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -78,9 +78,7 @@ export class PacienteProvider {
 
   public updatePaciente(data:any): Observable<any> {
 
-    let authKey = "Bearer "+this.authProvider.token;
-
-    //console.log(data);
+    let authKey = this.authProvider.getToken();
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -97,7 +95,5 @@ export class PacienteProvider {
         return response;
       });
   }
-
-
 
 }

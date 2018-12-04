@@ -4,7 +4,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 
 import { PlanoPage } from '../pages/plano/plano';
@@ -72,25 +71,26 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
+      this.statusBar.styleLightContent();
+
       this.splashScreen.hide();
 
-      this.db.get('paciente')
-      .then(data=> {
-        this.nome = data.nome;
-        this.avatar = data.avatar;
-      });
-/*
-      this.pacienteProvider.getPaciente().then(data=>{
-        console.log(data);
-        this.nome = data.nome;
-        this.avatar = data.avatar;
-      });
-*/
-      //this.user = JSON.parse(this.auth.storage.get('currentUser'));
-      this.rootPage = this.session.exist()
-                    ? HomePage
-                    : LoginPage;
+      this.db.exist('paciente').then(response=>{
+
+        this.db.get('paciente')
+          .then(resultado=> {
+
+            if(resultado) {
+                this.nome = resultado.nome;
+                this.avatar = resultado.avatar;
+            }
+
+          });
+
+        this.rootPage = response
+                      ? HomePage
+                      : LoginPage;
+      })
 
     });
 
@@ -140,6 +140,15 @@ export class MyApp {
     this.db.remove('paciente');
     this.db.remove('token');
     this.db.remove('user');
+
+    this.db.remove('alimentos');
+    this.db.remove('atividades');
+    this.db.remove('consultas');
+    this.db.remove('medidas');
+    this.db.remove('planos');
+    this.db.remove('injestao');
+    this.db.remove('recomendacoes');
+
     this.menuCtrl.close();
     var nav = this.app.getRootNav();
     nav.setRoot(LoginPage);

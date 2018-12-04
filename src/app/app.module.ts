@@ -7,7 +7,6 @@ import { HttpModule } from '@angular/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 
 import { PlanoPage } from '../pages/plano/plano';
@@ -32,7 +31,13 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { Session } from '../providers/session/session';
 
+import { GooglePlus } from '@ionic-native/google-plus';
+
 import { Db } from '../storage/db';
+
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera';
 
 export function jwtOptionsFactory(storage: Storage) {
   return {
@@ -45,7 +50,6 @@ export function jwtOptionsFactory(storage: Storage) {
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     LoginPage,
     PlanoPage,
     PerfilPage,
@@ -73,7 +77,6 @@ export function jwtOptionsFactory(storage: Storage) {
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     LoginPage,
     PlanoPage,
     PerfilPage,
@@ -92,6 +95,12 @@ export function jwtOptionsFactory(storage: Storage) {
     LocalNotifications,
     Session,
     Db,
+    GooglePlus,
+    FileTransfer,
+    //FileUploadOptions,
+    //FileTransferObject,
+    File,
+    Camera
   ]
 })
 export class AppModule {}

@@ -16,7 +16,7 @@
         Retornar
       </button>
     </ion-buttons>
-    
+
     <ion-title></ion-title>
   </ion-navbar>
 
@@ -32,7 +32,7 @@
 
   <div padding>
 
-    <ion-item-group>
+    <ion-item-group *ngIf="planos">
       <div *ngFor ="let plano of planos">
         <ion-item-divider color="light">{{ plano.nome }} <p item-end>{{ plano.horario }}</p></ion-item-divider>
         <ion-list>

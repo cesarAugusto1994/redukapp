@@ -61,81 +61,101 @@ export class RecomendacaoPage {
 
       let index = 'atividades';
 
-      if(this.db.exist(index)) {
-        return this.db.get(index);
-      }
+      return this.db.exist(index).then(response=>{
 
-      this.getAtividades()
-      .then(data => {
-          if(data) {
-            this.atividades = data;
-            this.db.create(index, data);
-          }
+        if(!response) {
+
+          this.getAtividades()
+          .then(data => {
+              if(data) {
+                this.atividades = data;
+                this.db.create(index, data);
+              }
+          });
+
+        }
+
+        return this.db.get(index);
+
       });
 
-      return this.db.get(index);
   }
 
   getDataAlimentos(){
 
       let index = 'alimentos';
 
-      if(this.db.exist(index)) {
-        return this.db.get(index);
-      }
+      return this.db.exist(index).then(response=>{
 
-      this.getAlimentos()
-      .then(data => {
-          if(data) {
-            this.alimentos = data;
-            this.db.create(index, data);
-          }
+        if(!response) {
+
+          this.getAlimentos()
+          .then(data => {
+              if(data) {
+                this.alimentos = data;
+                this.db.create(index, data);
+              }
+          });
+
+        }
+
+        return this.db.get(index);
+
       });
 
-      return this.db.get(index);
   }
 
   getDataInjestao(){
 
       let index = 'injestao';
 
-      if(this.db.exist(index)) {
-        return this.db.get(index);
-      }
+      return this.db.exist(index).then(response=>{
 
-      this.getInjestao()
-      .then(data => {
-          if(data) {
-            this.injestao = data;
-            this.db.create(index, data);
-          }
+        if(!response) {
+
+          this.getInjestao()
+          .then(data => {
+              if(data) {
+                this.injestao = data;
+                this.db.create(index, data);
+              }
+          });
+
+        }
+
+        return this.db.get(index);
+
       });
 
-      return this.db.get(index);
   }
 
   getDataRecomendacoes(){
 
       let index = 'recomendacoes';
 
-      if(this.db.exist(index)) {
-        return this.db.get(index);
-      }
+      return this.db.exist(index).then(response=>{
 
-      this.getRecomendacoes()
-      .then(data => {
-          if(data) {
-            this.recomendacoes = data;
-            this.db.create(index, data);
-          }
+        if(!response) {
+
+          this.getRecomendacoes()
+          .then(data => {
+              if(data) {
+                this.recomendacoes = data;
+                this.db.create(index, data);
+              }
+          });
+
+        }
+
+        return this.db.get(index);
+
       });
 
-      return this.db.get(index);
   }
 
   public getAtividades() {
 
-      let authKey = "Bearer "+this.auth.token;
+      let authKey = this.auth.getToken();
 
       const httpOptions = {
         headers: new HttpHeaders({
@@ -166,7 +186,7 @@ export class RecomendacaoPage {
 
   public getAlimentos() {
 
-      let authKey = "Bearer "+this.auth.token;
+      let authKey = this.auth.getToken();
 
       const httpOptions = {
         headers: new HttpHeaders({
@@ -197,7 +217,7 @@ export class RecomendacaoPage {
 
   public getInjestao() {
 
-      let authKey = "Bearer "+this.auth.token;
+      let authKey = this.auth.getToken();
 
       const httpOptions = {
         headers: new HttpHeaders({
@@ -228,7 +248,7 @@ export class RecomendacaoPage {
 
   public getRecomendacoes() {
 
-      let authKey = "Bearer "+this.auth.token;
+      let authKey = this.auth.getToken();
 
       const httpOptions = {
         headers: new HttpHeaders({

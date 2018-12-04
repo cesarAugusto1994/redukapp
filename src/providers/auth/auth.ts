@@ -11,6 +11,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { CONSTANTS } from '../../configs/constants/constants';
 import { User } from '../../models/user/user';
+import { Db } from '../../storage/db';
 
 /*
   Generated class for the AuthProvider provider.
@@ -29,14 +30,38 @@ export class AuthProvider {
 
   public id: any;
 
-  public token: any;
+  public token: string;
 
   private loading: Loading;
 
   constructor(public http: HttpClient,
     public storage: Storage,
+    public db: Db,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController) {
+
+  }
+
+  getToken() {
+
+    let index = 'token';
+
+    this.db.exist(index).then(response=>{
+
+      if(response) {
+
+          this.db.get(index)
+          .then(data => {
+              if(data) {
+                this.token = data;
+              }
+          });
+
+      }
+
+    });
+
+    return this.token;
 
   }
 
@@ -80,9 +105,49 @@ export class AuthProvider {
       });
   }
 
+  public loginApi(email) {
+
+      if (this.token) {
+        return Promise.resolve(this.token);
+      }
+
+      let authKey = "Bearer oZdbsQ5h6s8DZ6tRPmbrFAw77zeAqhFp";
+
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Authorization': authKey
+        })
+      };
+
+      let postData = {
+        email: email,
+        external_login:true
+      }
+
+      return new Promise(resolve => {
+        this.http.post(CONSTANTS.API_ENDPOINT_LOGIN, JSON.stringify(postData), httpOptions)
+          .subscribe(
+            data => {
+
+              if(!data) {
+                  return "Erro ao tentar se conectar com o servidor, ";
+              } else {
+
+                resolve(data);
+
+              }
+            },
+            err =>  {
+              return "Erro ao tentar se conectar com o servidor, " + err.message;
+            }
+        );
+      });
+  }
+
   public getUserData() {
 
-      let authKey = "Bearer "+this.token;
+      let authKey = this.getToken();
 
       const httpOptions = {
         headers: new HttpHeaders({
@@ -150,31 +215,74 @@ export class AuthProvider {
     } else {
       return Observable.create(observer => {
 
-          //console.log('auth::login');
-
           this.getUserApi(credentials).then(data => {
 
             if(!data) {
                 return "Erro ao tentar se conectar com o servidor, ";
             } else {
 
-              if(data.response == 'error') {
-
-                  //this.showError(data.message);
+              if(data['response'] == 'error') {
 
                   observer.next(false);
 
               } else {
 
-                  if(data && data.response === 'success') {
+                  if(data && data['response'] === 'success') {
 
-                      this.token = data.result.token;
+                      this.token = data['result']['token'];
                       this.storeToken(this.token);
 
                       this.user = this.getUserData();
                       this.paciente = this.getPaciente();
 
-                      //this.storeUser(this.user);
+                      this.storePaciente(this.paciente);
+
+                      observer.next(true);
+
+                  } else if (this.token) {
+                      observer.next(true);
+                  } else {
+                      observer.next(false);
+                  }
+
+              }
+
+            }
+
+            observer.complete();
+          });
+
+      });
+
+    }
+  }
+
+  public loginOnlyEmail(email) {
+    if (email === null) {
+      return Observable.throw("Please insert credentials");
+    } else {
+      return Observable.create(observer => {
+
+          this.loginApi(email).then(data => {
+
+            if(!data) {
+                return "Erro ao tentar se conectar com o servidor, ";
+            } else {
+
+              if(data['response'] == 'error') {
+
+                  observer.next(false);
+
+              } else {
+
+                  if(data && data['response'] === 'success') {
+
+                      this.token = data['result']['token'];
+                      this.storeToken(this.token);
+
+                      this.user = this.getUserData();
+                      this.paciente = this.getPaciente();
+
                       this.storePaciente(this.paciente);
 
                       observer.next(true);
@@ -204,16 +312,6 @@ export class AuthProvider {
   public storeToken(token) {
       this.token = token;
       this.storage.set('token', "Bearer "+ token);
-  }
-
-  public storeUser(user) {
-
-      user.then(data=>{
-        this.id = data.id;
-        //this.currentUser = new User(data.id,data.name,data.email, data.avatar);
-        this.storage.set('currentUser', this.currentUser);
-      })
-
   }
 
   public storePaciente(paciente) {

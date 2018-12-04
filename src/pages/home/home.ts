@@ -31,7 +31,7 @@ export class HomePage {
         this.consultas.getData()
         .then(data => {
             this.itens = (data);
-            this.hasConsultas = this.itens.length > 0 ? true : false;
+            this.hasConsultas = data ? true : false;
         });
       }
 
@@ -44,7 +44,6 @@ export class HomePage {
   }
 
   logout(){
-        // Remove API token
         const root = this.app.getRootNav();
         root.popToRoot();
   }
@@ -55,24 +54,12 @@ export class HomePage {
     let month = new Date().getMonth();
     let day = new Date().getDate();
 
-    //let time1 = new Date(year, month, day, 10, 0, 0, 0);
-    //let time2 = new Date(year, month, day, 12, 0, 0, 0);
-
     let cafeDaManha = new Date(year, month, day, 7, 0, 0, 0);
     let almoco = new Date(year, month, day, 12, 0, 0, 0);
     let lancheDaTarde = new Date(year, month, day, 16, 0, 0, 0);
     let jantar = new Date(year, month, day, 19, 0, 0, 0);
 
     this.localNotifications.schedule([
-/*
-      {
-        id: 1,
-        title: 'Reduk',
-        text: 'Bem Vindo ao Reduk',
-        trigger: {at: new Date(new Date().getTime() + 3600)},
-        led: 'FF0000',
-      },
-*/
       {
         id: 2,
         title: 'Bom dia!',
@@ -104,19 +91,6 @@ export class HomePage {
         trigger: {at: new Date(jantar)},
         led: 'FF0000',
       },
-
-      //"day","hour","minute","week" can be used
-/*
-      {
-        id: 2,
-        title: 'My Second notification',
-        text: 'Second notification on 12 pm',
-        //trigger: {firstAt: new Date(time2)},
-        trigger: {at: new Date(jantar)},
-        //every: 'day',
-        led: 'FF0000',
-      }
-*/
     ]);
 
   }

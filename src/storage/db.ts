@@ -24,7 +24,7 @@ export class Db {
     }
 
     exist(index:any) {
-        this.get(index).then(res => {
+        return this.get(index).then(res => {
             //console.log('resultado >>> ', res);
             if(res) {
                 //console.log('resultado IF');
