@@ -12,7 +12,7 @@
     </button>
     <ion-buttons end>
       <button padding ion-button (click)="backToPerfil()">
-        Retornar
+        <ion-icon name="md-arrow-round-back"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title></ion-title>
@@ -48,7 +48,7 @@
           </ion-item>
           <ion-item *ngIf="paciente">
             <ion-label floating>Telefone</ion-label>
-            <ion-input type="tel" name="phone" [(ngModel)]="paciente.telefone"></ion-input>
+            <ion-input type="tel" name="phone" [(ngModel)]="paciente.telefone" [brmasker]="{phone: true}"></ion-input>
           </ion-item>
 
           <ion-item *ngIf="paciente">

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, App, MenuController } from 'ionic-angular';
+import { NavController, App, MenuController, Events } from 'ionic-angular';
 import { ConsultasProvider } from './../../providers/consultas/consultas';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { AuthProvider } from './../../providers/auth/auth';
@@ -25,17 +25,22 @@ export class HomePage {
       private localNotifications : LocalNotifications,
       public app: App,
       public session: Session,
+      public events: Events,
       public consultas: ConsultasProvider) {
 
-      if(!this.itens) {
-        this.consultas.getData()
-        .then(data => {
-            this.itens = (data);
-            this.hasConsultas = data ? true : false;
-        });
-      }
-
       this.menu.enable(true);
+
+      this.auth.getDataConsultas()
+      .then(data => {
+          //console.log(data);
+          this.itens = (data);
+
+      });
+
+      this.events.subscribe('consultas:list', (consultas, time) => {
+        this.itens = consultas;
+        //console.log('Ola', consultas, 'at', time);
+      });
   }
 
   criaSession() {

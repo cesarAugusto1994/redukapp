@@ -91,7 +91,7 @@ export class PacienteProvider {
     return this.http
       .post(CONSTANTS.API_ENDPOINT_PACIENTE_STORE, JSON.stringify(data), httpOptions)
       .map(response => {
-        //console.log(response);
+        console.log(response);
         return response;
       });
   }

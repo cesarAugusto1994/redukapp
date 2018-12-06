@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IonicPage, NavController, NavParams, LoadingController, Loading, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading, ToastController, ActionSheetController, AlertController, Events } from 'ionic-angular';
 import { AuthProvider } from './../../providers/auth/auth';
 import { PacienteProvider } from './../../providers/paciente/paciente';
-import {Storage} from "@ionic/storage";
+import { Storage } from "@ionic/storage";
 
 import { HomePage } from '../home/home';
 import { PerfilEditarPage } from '../perfil-editar/perfil-editar';
@@ -13,6 +13,8 @@ import { Paciente } from '../../models/paciente/paciente';
 
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+
+import { AlterarSenhaPage } from '../alterar-senha/alterar-senha';
 
 /**
  * Generated class for the PerfilPage page.
@@ -44,13 +46,55 @@ export class PerfilPage {
     private storage: Storage,
     private pacienteProvider: PacienteProvider,
     private loadingCtrl: LoadingController,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
+    public events: Events,
+    public actionSheetCtrl: ActionSheetController) {
   }
 
   ionViewDidLoad() {
 
     this.getPaciente();
 
+    this.events.subscribe('paciente:updated', (paciente, time) => {
+      this.paciente = paciente;
+      console.log('Ola 1', paciente, 'at', time);
+    });
+
+  }
+
+  presentActionSheet() {
+      const actionSheet = this.actionSheetCtrl.create({
+        title: 'Suas Opções',
+        buttons: [
+          {
+            text: 'Alterar Senha',
+            role: 'destructive',
+            handler: () => {
+
+              this.goToAlterarSenha();
+
+            }
+          },
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }
+        ]
+      });
+      actionSheet.present();
+  }
+
+  showAlertaEnvioEmail() {
+    const alert = this.alertCtrl.create({
+      title: 'Atenção!',
+      subTitle: 'Foi enviado para o seu email uma solicitação de redefinição de senha.',
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
   getImage() {
@@ -66,6 +110,8 @@ export class PerfilPage {
 
     this.camera.getPicture(options).then((imageData) => {
       this.imageURI = imageData;
+      console.log(imageData);
+      this.presentToast(JSON.stringify(imageData));
       this.uploadFile();
 
     }, (err) => {
@@ -84,7 +130,7 @@ export class PerfilPage {
 
     const fileTransfer: FileTransferObject = this.transfer.create();
 
-    let authKey = "Bearer "+this.auth.token;
+    let authKey = this.auth.getToken();
 
     let options: FileUploadOptions = {
       fileKey: 'ionicfile',
@@ -102,22 +148,21 @@ export class PerfilPage {
       }
     }
 
-    fileTransfer.upload(this.imageURI, CONSTANTS.API_ENDPOINT_USER_UPLOAD, options)
+    fileTransfer.upload(this.imageURI, encodeURI(CONSTANTS.API_ENDPOINT_USER_UPLOAD), options)
       .then((data) => {
       //console.log(data+" Uploaded Successfully");
+      this.presentToast(JSON.stringify(data));
       this.imageFileName = "avatar.jpg";
       loader.dismiss();
       this.presentToast("Image uploaded successfully");
     }, (err) => {
-      //console.log(err);
+      console.log(err);
       loader.dismiss();
       this.presentToast(err);
     });
   }
 
   presentToast(msg) {
-
-    console.log(JSON.stringify(msg));
 
     let toast = this.toastCtrl.create({
       message: msg,
@@ -134,6 +179,10 @@ export class PerfilPage {
 
   backToHome() {
     this.navCtrl.setRoot(HomePage);
+  }
+
+  goToAlterarSenha() {
+    this.navCtrl.setRoot(AlterarSenhaPage);
   }
 
   toEdit() {

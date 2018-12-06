@@ -24,8 +24,8 @@ page-perfil {
   .button-camera {
     margin-left: -50px;
     margin-top: -25px;
-    background-color: transparent;
     border: none;
+    display: none;
   }
 
   .row {
@@ -34,8 +34,8 @@ page-perfil {
       background-color:#AD1E24;
   }
 
-  .col-md-4 {
-      width: 33.33333333%;
+  .col-md-6 {
+      width: 50%;
       position: relative;
       min-height: 1px;
       padding-right: 15px;
@@ -44,6 +44,8 @@ page-perfil {
       text-align:center;
       padding:1em 0.9em;
       color: white;
+      font-family: sans-serif;
+      font-weight: 900;
   }
 
   .border-top {

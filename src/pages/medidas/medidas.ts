@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController, ToastController} from 'ionic-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import 'rxjs/add/operator/map';
@@ -44,6 +44,7 @@ export class MedidasPage {
     private auth: AuthProvider,
     private alertCtrl: AlertController,
     private db: Db,
+    private toastCtrl: ToastController,
     private loadingCtrl: LoadingController) {
   }
 
@@ -64,6 +65,38 @@ export class MedidasPage {
 
   toAddMedidas() {
     this.navCtrl.setRoot(MedidasAddPage);
+  }
+
+  delete(item) {
+
+    this.presentConfirmarRemocao(item);
+
+  }
+
+  presentConfirmarRemocao(item) {
+    let alert = this.alertCtrl.create({
+      title: 'Confirmar Remoção',
+      message: 'Deseja mesmo remover este registro?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            //console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+
+            this.deletarMedida(item);
+
+          }
+        }
+      ]
+    });
+    alert.present();
+
   }
 
   getData(){
@@ -137,6 +170,78 @@ export class MedidasPage {
       buttons: ['OK']
     });
     alert.present();
+  }
+
+  public deletarMedida(item) {
+
+
+    this.remove(item).then(data => {
+
+        if(data['success']) {
+
+            this.presentToast(data['message']);
+
+            this.db.remove('medidas');
+
+            this.getData().then(data=>{
+              if(data) {
+                this.pesos = data.peso;
+                this.alturas = data.altura;
+              }
+            });
+
+        }
+
+    });
+
+  }
+
+  public remove(item){
+
+    let authKey = this.auth.getToken();
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': authKey,
+        Accept: 'application/json;odata=verbose',
+      })
+    };
+
+    return new Promise(resolve => {
+      this.http.post(CONSTANTS.API_ENDPOINT_MEDIDAS_DELETE+item.id, JSON.stringify({}), httpOptions)
+        .subscribe(
+          data => {
+
+            if(!data) {
+                return "Erro ao tentar se conectar com o servidor, ";
+            } else {
+
+              resolve(data);
+
+            }
+          },
+          err =>  {
+            return "Erro ao tentar se conectar com o servidor, " + err.message;
+          }
+      );
+    });
+
+  }
+
+  presentToast(msg) {
+
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 
 }

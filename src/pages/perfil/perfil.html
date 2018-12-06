@@ -10,11 +10,13 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
+
     <ion-buttons end>
       <button padding ion-button (click)="backToHome()">
-        Retornar
+        <ion-icon name="md-arrow-round-back"></ion-icon>
       </button>
     </ion-buttons>
+
     <ion-title></ion-title>
   </ion-navbar>
 
@@ -32,7 +34,7 @@
 
       <img class="avatar" src="{{paciente.avatar}}">
 
-      <button ion-button icon-only class="button-camera" (click)="getImage()">
+      <button ion-button icon-only class="button-camera" color="app_color" (click)="getImage()">
         <ion-icon name="camera"></ion-icon>
       </button>
 
@@ -42,21 +44,14 @@
 
   <div class="row border-top">
 
-    <div class="col-md-4">
+    <div class="col-md-6">
 
       <small>Email</small>
       <p *ngIf="paciente">{{paciente.email}}</p>
 
     </div>
 
-    <div class="col-md-4">
-
-      <small>Nascimento</small>
-      <p *ngIf="paciente">{{paciente.nascimento_formatado}}</p>
-
-    </div>
-
-    <div class="col-md-4">
+    <div class="col-md-6">
 
       <small>Telefone</small>
       <p *ngIf="paciente">{{paciente.telefone}}</p>
@@ -68,6 +63,7 @@
   <div padding>
 
       <ion-list no-lines *ngIf="paciente">
+        <ion-item><p>Nascimento</p><h2>{{paciente.nascimento_formatado}}</h2></ion-item>
         <ion-item><p>Gênero</p><h2>{{ paciente.sexo == 'M' ? 'Masculino' : 'Feminino' }}</h2></ion-item>
         <ion-item><p>Ocupação</p><h2>{{ paciente.ocupacao }}</h2></ion-item>
         <ion-item><p>CEP</p><h2>{{ paciente.cep }}</h2></ion-item>

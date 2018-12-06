@@ -21,4 +21,5 @@ export var CONSTANTS = {
  API_ENDPOINT_INJESTAO: API+'injestao',
  API_ENDPOINT_RECOMENDACOES: API+'recomendacoes',
  API_ENDPOINT_CONSULTAS: API+'consultas',
+ API_ENDPOINT_MEDIDAS_DELETE: API+'medidas/delete/'
 };

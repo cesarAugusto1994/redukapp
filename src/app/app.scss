@@ -33,7 +33,6 @@
 
 .button-list {
   background-color:#fff;
-  //color:white;
   border-bottom-color:#2f4050;
 }
 
@@ -44,8 +43,10 @@
 .avatar {
   -webkit-border-radius: 50%;
   border-radius: 50%;
-  width:40%;
+  width:120px;
+  height: 120px;
   background-color: white;
+  border: 3px solid white;
 }
 
 .box-avatar {
@@ -57,7 +58,7 @@
 
 .avatar-title {
   color: white;
-  font-size: 16px;
+  font-size: 20px;
   margin-top: 15px;
 }
 
@@ -79,5 +80,5 @@
     margin-top:0;
     padding-top:15px;
     color:white;
-    font-size: 16px;
+    font-size: 20px;
 }

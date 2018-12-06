@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { LoadingController, Loading, AlertController } from 'ionic-angular';
+import { LoadingController, Loading, AlertController, Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 
 import {Observable} from "rxjs";
@@ -28,6 +28,8 @@ export class AuthProvider {
 
   public paciente: any;
 
+  public consultas: any;
+
   public id: any;
 
   public token: string;
@@ -38,8 +40,14 @@ export class AuthProvider {
     public storage: Storage,
     public db: Db,
     private alertCtrl: AlertController,
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController,
+    public events: Events,
+  ) {
 
+  }
+
+  getListaConsultas() {
+      return this.consultas;
   }
 
   getToken() {
@@ -179,7 +187,7 @@ export class AuthProvider {
 
   public getPaciente() {
 
-      let authKey = "Bearer "+this.token;
+      let authKey = this.getToken();
 
       const httpOptions = {
         headers: new HttpHeaders({
@@ -235,8 +243,15 @@ export class AuthProvider {
                       this.user = this.getUserData();
                       this.paciente = this.getPaciente();
 
+                      this.storeUser(this.user);
                       this.storePaciente(this.paciente);
 
+                      this.events.publish('user:logged', this.paciente, Date.now());
+/*
+                      this.getDataConsultas.then(resultado=>{
+                          this.events.publish('consultas:list', resultado, Date.now());
+                      });
+*/
                       observer.next(true);
 
                   } else if (this.token) {
@@ -314,6 +329,14 @@ export class AuthProvider {
       this.storage.set('token', "Bearer "+ token);
   }
 
+  public storeUser(user) {
+
+    user.then(data=>{
+      this.storage.set('user', data);
+    })
+
+  }
+
   public storePaciente(paciente) {
 
     paciente.then(data=>{
@@ -368,6 +391,60 @@ export class AuthProvider {
       dismissOnPageChange: true
     });
     this.loading.present();
+  }
+
+  getConsultas() {
+
+      let authKey = this.getToken();
+
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: authKey,
+          Accept: 'application/json;odata=verbose',
+        })
+      };
+
+      return new Promise(resolve => {
+        this.http.get(CONSTANTS.API_ENDPOINT_CONSULTAS+'?token='+authKey, httpOptions)
+          .subscribe(
+            data => {
+
+              if(!data) {
+                  return "Erro ao tentar se conectar com o servidor, ";
+              } else {
+                resolve(data);
+              }
+            },
+            err =>  {
+              return "Erro ao tentar se conectar com o servidor, " + err.message;
+            }
+        );
+      });
+
+  }
+
+  getDataConsultas(){
+
+      let index = 'consultas';
+
+      return this.db.exist(index).then(response=>{
+
+        if(!response) {
+
+          this.getConsultas()
+          .then(data => {
+              this.consultas = (data);
+              this.events.publish('consultas:list', data, Date.now());
+              this.db.create(index, data);
+          });
+
+        }
+
+        return this.db.get(index);
+
+      });
+
   }
 
 }

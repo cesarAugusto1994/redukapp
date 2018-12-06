@@ -13,7 +13,7 @@
 
     <ion-buttons end>
       <button padding ion-button (click)="backToHome()">
-        Retornar
+        <ion-icon name="md-arrow-round-back"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -34,7 +34,7 @@
 
     <ion-item-group *ngIf="planos">
       <div *ngFor ="let plano of planos">
-        <ion-item-divider color="light">{{ plano.nome }} <p item-end>{{ plano.horario }}</p></ion-item-divider>
+        <ion-item-divider color="light" class="title">{{ plano.nome }} <p item-end>{{ plano.horario }}</p></ion-item-divider>
         <ion-list>
           <ion-item *ngFor ="let alimento of plano.alimentos" >{{alimento.nome}}<p item-end>{{alimento.quantidade}}</p></ion-item>
         </ion-list>

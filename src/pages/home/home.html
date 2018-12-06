@@ -25,7 +25,7 @@
               {{consulta.horario}}
           </ion-avatar>
           <h2>Agendada para: {{consulta.data}}</h2>
-          <p>Observações:{{consulta.notas}} </p>
+          Observações:{{consulta.notas}}
           <p *ngIf="consulta.status == 'Pendente'" style="color: #f8ac59;">Situação: {{consulta.status}} </p>
           <p *ngIf="consulta.status == 'Finalizada'" style="color: #1ab394;">Situação: {{consulta.status}} </p>
           <p *ngIf="consulta.status == 'Cancelada'" style="color: #ed5565;">Situação: {{consulta.status}} </p>

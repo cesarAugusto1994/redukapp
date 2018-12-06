@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { App, Nav, Platform, MenuController, AlertController } from 'ionic-angular';
+import { App, Nav, Platform, MenuController, AlertController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -46,6 +46,7 @@ export class MyApp {
     private session: Session,
     public alertCtrl: AlertController,
     private db: Db,
+    public events: Events,
     private readonly storage: Storage) {
     this.initializeApp();
 
@@ -59,7 +60,20 @@ export class MyApp {
 
     ];
 
+    events.subscribe('user:logged', (paciente, time) => {
+      // user and time are the same arguments passed in `events.publish(user, time)`
 
+      paciente.then(resultado=> {
+
+          if(resultado) {
+              this.nome = resultado.nome;
+              this.avatar = resultado.avatar;
+          }
+
+        });
+
+        //console.log('Welcome', paciente, 'at', time);
+    });
 
   }
 
@@ -104,25 +118,27 @@ export class MyApp {
                 nav.pop();
             } else {
                 const alert = this.alertCtrl.create({
-                    title: 'Fechar o App',
+                    title: 'Sair do app',
                     message: 'Você tem certeza?',
                     buttons: [{
                         text: 'Cancelar',
                         role: 'cancel',
                         handler: () => {
-                          this.nav.setRoot('HomePage');
-                          console.log('** Saída do App Cancelada! **');
+                          this.nav.setRoot(HomePage);
                         }
                     },{
-                        text: 'Fechar o App',
+                        text: 'Sim',
                         handler: () => {
-                          this.logoutClicked();
                           this.platform.exitApp();
                         }
                     }]
                 });
                 alert.present();
             }
+        } else {
+          if(activeView.name != 'LoginPage') {
+              this.nav.setRoot(HomePage);
+          }
         }
       });
   }

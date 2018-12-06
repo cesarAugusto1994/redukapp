@@ -16,13 +16,14 @@ import { MedidasPage } from '../pages/medidas/medidas';
 import { MedidasAddPage } from '../pages/medidas-add/medidas-add';
 import { RecomendacaoPage } from '../pages/recomendacao/recomendacao';
 
+import { AlterarSenhaPage } from '../pages/alterar-senha/alterar-senha';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AuthProvider } from '../providers/auth/auth';
 
-import {Storage, IonicStorageModule} from "@ionic/storage";
-import {JWT_OPTIONS, JwtModule} from '@auth0/angular-jwt';
+import { Storage, IonicStorageModule } from "@ionic/storage";
 
 import { ConsultasProvider } from '../providers/consultas/consultas';
 import { PacienteProvider } from '../providers/paciente/paciente';
@@ -39,12 +40,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
 
-export function jwtOptionsFactory(storage: Storage) {
-  return {
-    tokenGetter: () => storage.get('jwt_token'),
-    whitelistedDomains: ['localhost:8080']
-  }
-}
+import { BrMaskerModule } from 'brmasker-ionic-3';
 
 @NgModule({
   declarations: [
@@ -56,19 +52,14 @@ export function jwtOptionsFactory(storage: Storage) {
     PerfilEditarPage,
     MedidasPage,
     RecomendacaoPage,
-    MedidasAddPage
+    MedidasAddPage,
+    AlterarSenhaPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    JwtModule.forRoot({
-      jwtOptionsProvider: {
-        provide: JWT_OPTIONS,
-        useFactory: jwtOptionsFactory,
-        deps: [Storage]
-      }
-    }),
     IonicStorageModule.forRoot(),
+    BrMaskerModule
   ],
   exports: [
     HttpClientModule
@@ -83,7 +74,8 @@ export function jwtOptionsFactory(storage: Storage) {
     PerfilEditarPage,
     MedidasPage,
     RecomendacaoPage,
-    MedidasAddPage
+    MedidasAddPage,
+    AlterarSenhaPage
   ],
   providers: [
     StatusBar,
@@ -97,10 +89,8 @@ export function jwtOptionsFactory(storage: Storage) {
     Db,
     GooglePlus,
     FileTransfer,
-    //FileUploadOptions,
-    //FileTransferObject,
     File,
-    Camera
+    Camera,
   ]
 })
 export class AppModule {}

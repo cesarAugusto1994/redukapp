@@ -14,6 +14,15 @@ export class Db {
         this.storage.set(index, data);
     }
 
+    update(index:any, data: any) {
+
+        if(this.exist(index)) {
+          this.remove(index)
+        }
+
+        this.storage.set(index, data);
+    }
+
     get(index:any): Promise<any> {
         return this.storage.get(index);
     }

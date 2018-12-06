@@ -25,8 +25,8 @@ import { Db } from '../../storage/db';
 export class MedidasAddPage {
 
   private medida: any;
-  public data: any;
-  public tipo: any;
+  public data = new Date().toISOString();
+  public tipo = 1;
 
   private loading: Loading;
 
@@ -52,26 +52,18 @@ export class MedidasAddPage {
       let postData = {
         tipo: this.tipo,
         medida: this.medida,
-        data: this.data,
+        data: new Date(this.data).toISOString(),
       }
 
-      if(!this.medida) {
+      if(!this.tipo) {
           this.showError('Informe o tipo de medida.');
-      } else if(!this.data) {
+      } else if(!this.medida) {
           this.showError('Informe o valor da medida.');
       } else if(!this.data) {
           this.showError('Informe uma data.');
       } else {
 
-        this.showLoading();
-
-        this.post(postData).then(data => {
-            this.navCtrl.setRoot(this.navCtrl.getActive().component);
-        });
-
-        this.db.remove('medidas');
-
-        this.goback();
+        this.presentConfirmarAdicao(postData);
 
       }
 
@@ -108,6 +100,40 @@ export class MedidasAddPage {
           }
       );
     });
+
+  }
+
+  presentConfirmarAdicao(postData) {
+    let alert = this.alertCtrl.create({
+      title: 'Confirmar Inclusão',
+      message: 'Deseja mesmo adicionar esta nova medida?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            //console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+
+            this.showLoading();
+
+            this.post(postData).then(data => {
+                this.navCtrl.setRoot(this.navCtrl.getActive().component);
+            });
+
+            this.db.remove('medidas');
+
+            this.goback();
+
+          }
+        }
+      ]
+    });
+    alert.present();
 
   }
 

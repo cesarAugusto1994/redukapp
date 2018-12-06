@@ -14,7 +14,7 @@
 
     <ion-buttons end>
       <button padding ion-button (click)="backToHome()">
-        Retornar
+        <ion-icon name="md-arrow-round-back"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -37,14 +37,34 @@
         <ion-item-divider>
           Peso
         </ion-item-divider>
-        <ion-item *ngFor ="let peso of pesos" >{{peso.valor}}<p item-end>{{peso.data}}</p></ion-item>
+
+        <ion-item-sliding  *ngFor ="let peso of pesos" (ionSwipe)="delete(peso)" >
+          <ion-item>
+            {{peso.data}}
+            <p item-end>{{peso.valor}}</p>
+            </ion-item>
+          <ion-item-options>
+            <button *ngIf="peso.delete" ion-button color="danger" expandable (click)="delete(peso)"><ion-icon name="trash"></ion-icon> Remover</button>
+          </ion-item-options>
+        </ion-item-sliding>
+
       </ion-list>
 
       <ion-list no-lines *ngIf="alturas">
         <ion-item-divider>
           Altura
         </ion-item-divider>
-        <ion-item *ngFor ="let altura of alturas" >{{altura.valor}}<p item-end>{{altura.data}}</p></ion-item>
+
+        <ion-item-sliding  *ngFor ="let altura of alturas" (ionSwipe)="delete(altura)" >
+          <ion-item>
+            {{altura.data}} 
+            <p item-end>{{altura.valor}}</p>
+            </ion-item>
+          <ion-item-options>
+            <button *ngIf="altura.delete" ion-button color="danger" expandable (click)="delete(altura)"><ion-icon name="trash"></ion-icon> Remover</button>
+          </ion-item-options>
+        </ion-item-sliding>
+
       </ion-list>
 
   </div>

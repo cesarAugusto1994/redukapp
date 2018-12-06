@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading, Events } from 'ionic-angular';
 import { AuthProvider } from './../../providers/auth/auth';
 import { PacienteProvider } from './../../providers/paciente/paciente';
-import {Storage} from "@ionic/storage";
+import { Storage } from "@ionic/storage";
 
 import { CONSTANTS } from '../../configs/constants/constants';
 import { Paciente } from '../../models/paciente/paciente';
 
 import { PerfilPage } from '../perfil/perfil';
+
+import { Db } from '../../storage/db';
 
 /**
  * Generated class for the PerfilEditarPage page.
@@ -33,6 +35,8 @@ export class PerfilEditarPage {
     public navParams: NavParams,
     public auth: AuthProvider,
     private storage: Storage,
+    private db: Db,
+    public events: Events,
     private pacienteProvider: PacienteProvider,
     private loadingCtrl: LoadingController) {
   }
@@ -82,6 +86,12 @@ export class PerfilEditarPage {
       this.showLoading();
 
       this.pacienteProvider.updatePaciente(postData).subscribe(data => {
+
+          this.auth.getPaciente().then(resultado=>{
+            this.db.update('paciente',resultado);
+            this.events.publish('paciente:updated', resultado, Date.now());
+          });
+
           this.navCtrl.setRoot(PerfilPage);
       });
 

@@ -1,4 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 
 import { AuthProvider } from './../../providers/auth/auth';
@@ -22,7 +23,7 @@ export class ConsultasProvider {
 
   private hasConsultas = false;
 
-  constructor(public http: HttpClient, private auth: AuthProvider, private db: Db) {
+  constructor(public http: HttpClient, private auth: AuthProvider, private db: Db, public events: Events) {
   }
 
   getData(){
@@ -42,7 +43,11 @@ export class ConsultasProvider {
 
         }
 
-        return this.db.get(index);
+        let resultado = this.db.get(index);
+
+        this.events.publish('consutlas:list', resultado, Date.now());
+
+        return resultado;
 
       });
 
