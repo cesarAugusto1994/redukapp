@@ -10,19 +10,14 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-
-    <ion-buttons end>
-      <button padding ion-button (click)="backToHome()">
-        <ion-icon name="md-arrow-round-back"></ion-icon>
-      </button>
-    </ion-buttons>
-
     <ion-title></ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content>
+
+  <div style="height:100%" (swiperight)="swipeRight($event)" >
 
   <div class="header-box"></div>
 
@@ -34,10 +29,6 @@
 
       <img class="avatar" src="{{paciente.avatar}}">
 
-      <button ion-button icon-only class="button-camera" color="app_color" (click)="getImage()">
-        <ion-icon name="camera"></ion-icon>
-      </button>
-
       <h5 class="avatar-title" *ngIf="paciente">{{paciente.nome}}</h5>
 
   </div>
@@ -46,14 +37,14 @@
 
     <div class="col-md-6">
 
-      <small>Email</small>
+      <p>Email</p>
       <p *ngIf="paciente">{{paciente.email}}</p>
 
     </div>
 
     <div class="col-md-6">
 
-      <small>Telefone</small>
+      <p>Telefone</p>
       <p *ngIf="paciente">{{paciente.telefone}}</p>
 
     </div>
@@ -80,5 +71,7 @@
         <ion-icon ios="ios-create" md="md-create"></ion-icon>
     </button>
   </ion-fab>
+
+  </div>
 
 </ion-content>

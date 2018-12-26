@@ -8,6 +8,8 @@ import { AuthProvider } from './../../providers/auth/auth';
 
 import { CONSTANTS } from '../../configs/constants/constants';
 
+import { HomePage } from '../home/home';
+
 import { Db } from '../../storage/db';
 
 /**
@@ -70,6 +72,37 @@ export class MedidasAddPage {
 
   }
 
+  public getMedidas() {
+
+      let authKey = this.auth.getToken();
+
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: authKey,
+          Accept: 'application/json;odata=verbose',
+        })
+      };
+
+      return new Promise(resolve => {
+        this.http.get(CONSTANTS.API_ENDPOINT_MEDIDAS+'?token='+authKey, httpOptions)
+          .subscribe(
+            data => {
+
+              if(!data) {
+                  return "Erro ao tentar se conectar com o servidor, ";
+              } else {
+                resolve(data);
+              }
+            },
+            err =>  {
+              return "Erro ao tentar se conectar com o servidor, " + err.message;
+            }
+        );
+      });
+
+  }
+
   public post(postData){
 
     let authKey = this.auth.getToken();
@@ -127,7 +160,16 @@ export class MedidasAddPage {
 
             this.db.remove('medidas');
 
-            this.goback();
+            this.getMedidas()
+            .then(data => {
+                  this.db.create('medidas', data);
+            });
+
+            this.navCtrl.setRoot(HomePage, {
+              page: 'MedidasPage'
+            });
+
+            //this.goback();
 
           }
         }

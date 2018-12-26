@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IonicPage, NavController, NavParams, LoadingController, Loading, ToastController, ActionSheetController, AlertController, Events } from 'ionic-angular';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 import { AuthProvider } from './../../providers/auth/auth';
 import { PacienteProvider } from './../../providers/paciente/paciente';
 import { Storage } from "@ionic/storage";
 
 import { HomePage } from '../home/home';
+import { PlanoPage } from '../plano/plano';
 import { PerfilEditarPage } from '../perfil-editar/perfil-editar';
+import { RecomendacaoPage } from '../recomendacao/recomendacao';
 
 import { CONSTANTS } from '../../configs/constants/constants';
 import { Paciente } from '../../models/paciente/paciente';
@@ -15,6 +18,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
 import { AlterarSenhaPage } from '../alterar-senha/alterar-senha';
+import { UploadImagePage } from '../upload-image/upload-image';
 
 /**
  * Generated class for the PerfilPage page.
@@ -37,7 +41,19 @@ export class PerfilPage {
   imageURI:any;
   imageFileName:any;
 
+  private options: NativeTransitionOptions = {
+    direction: 'up',
+    duration: 500,
+    slowdownfactor: 3,
+    slidePixels: 20,
+    iosdelay: 100,
+    androiddelay: 150,
+    fixedPixelsTop: 0,
+    fixedPixelsBottom: 60
+   };
+
   constructor(public http: HttpClient,
+    private nativePageTransitions: NativePageTransitions,
     public navCtrl: NavController,
     private transfer: FileTransfer,
     private camera: Camera,
@@ -58,9 +74,23 @@ export class PerfilPage {
 
     this.events.subscribe('paciente:updated', (paciente, time) => {
       this.paciente = paciente;
-      console.log('Ola 1', paciente, 'at', time);
     });
 
+  }
+
+  swipeRight(event: any): any {
+
+    let nav = this.navCtrl.getActive();
+
+    if(nav.name === 'PerfilPage') {
+        this.nativePageTransitions.slide(this.options);
+        this.navCtrl.push(RecomendacaoPage);
+    }
+
+  }
+
+  uploadImage() {
+    this.navCtrl.setRoot(UploadImagePage);
   }
 
   presentActionSheet() {

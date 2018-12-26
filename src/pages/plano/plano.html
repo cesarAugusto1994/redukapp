@@ -11,12 +11,6 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-buttons end>
-      <button padding ion-button (click)="backToHome()">
-        <ion-icon name="md-arrow-round-back"></ion-icon>
-      </button>
-    </ion-buttons>
-
     <ion-title></ion-title>
   </ion-navbar>
 
@@ -24,11 +18,21 @@
 
 <ion-content>
 
+  <div style="height:100%" (swipeleft)="swipeLeft($event)" (swiperight)="swipeRight($event)" >
+
   <div class="header-box"></div>
 
   <img class="logo" src="./assets/imgs/logo_navbar_2.png"/>
 
-  <div class="header-box-title"><p class="header-title">Plano Alimentar</p></div>
+  <div class="header-box-title">
+    <p class="header-title">
+      <span class="custom-tab">Início</span>
+      <span class="custom-tab custom-tab-active">Plano Alimentar</span>
+      <span class="custom-tab">Medidas</span>
+      <span class="custom-tab">Recomendações</span>
+      <span class="custom-tab">Meus Dados</span>
+    </p>
+  </div>
 
   <div padding>
 
@@ -40,6 +44,8 @@
         </ion-list>
       </div>
     </ion-item-group>
+
+  </div>
 
   </div>
 

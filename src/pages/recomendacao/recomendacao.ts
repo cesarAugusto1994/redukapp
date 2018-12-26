@@ -8,8 +8,12 @@ import { AuthProvider } from './../../providers/auth/auth';
 import { CONSTANTS } from '../../configs/constants/constants';
 
 import { HomePage } from '../home/home';
+import { MedidasPage } from '../medidas/medidas';
+import { PerfilPage } from '../perfil/perfil';
 
 import { Db } from '../../storage/db';
+
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 
 /**
  * Generated class for the RecomendacaoPage page.
@@ -30,11 +34,51 @@ export class RecomendacaoPage {
   private injestao: any;
   private recomendacoes: any;
 
-  constructor(public http: HttpClient, public auth: AuthProvider, public navCtrl: NavController, public navParams: NavParams, private db: Db) {
+  private options: NativeTransitionOptions = {
+    direction: 'up',
+    duration: 500,
+    slowdownfactor: 3,
+    slidePixels: 20,
+    iosdelay: 100,
+    androiddelay: 150,
+    fixedPixelsTop: 0,
+    fixedPixelsBottom: 60
+   };
+
+  constructor(public http: HttpClient,
+    private nativePageTransitions: NativePageTransitions,
+    public auth: AuthProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private db: Db) {
   }
 
   backToHome() {
     this.navCtrl.setRoot(HomePage);
+  }
+
+  swipeRight(event: any): any {
+
+    let nav = this.navCtrl.getActive();
+
+    if(nav.name === 'RecomendacaoPage') {
+      this.nativePageTransitions.slide(this.options);
+      this.navCtrl.push(MedidasPage);
+        //this.navCtrl.setRoot(MedidasPage);
+    }
+
+  }
+
+  swipeLeft(event: any): any {
+
+    let nav = this.navCtrl.getActive();
+
+    if(nav.name === 'RecomendacaoPage') {
+      this.nativePageTransitions.slide(this.options);
+      this.navCtrl.push(PerfilPage);
+        //this.navCtrl.setRoot(PerfilPage);
+    }
+
   }
 
   ionViewDidLoad() {

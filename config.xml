@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="1.0.57" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="br.com.redukapp" version="1.0.85" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Reduk</name>
     <description>Nutrição Assistida.</description>
-    <author email="cezzaar@gmail.com" href="http://ionicframework.com/">César Augusto Sousa</author>
+    <author email="cezzaar@gmail.com" href="www.linkedin.com/in/césar-augusto-sousa-902b5356">César Augusto Sousa</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -93,5 +93,7 @@
     <plugin name="cordova-plugin-file-transfer" spec="1.7.1" />
     <plugin name="cordova-plugin-local-notification" spec="0.9.0-beta.2" />
     <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
+    <plugin name="cordova-plugin-filepath" spec="1.4.2" />
+    <plugin name="com.telerik.plugins.nativepagetransitions" spec="0.6.5" />
     <engine name="android" spec="7.1.2" />
 </widget>

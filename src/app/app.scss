@@ -70,15 +70,80 @@
 
 .header-box-title {
     background-color:#AD1E24;
-    height:50px;
+    height:60px;
     text-align:center;
     margin-top:-10px;
-    font-size: 16px;
+    padding-top:15px;
 }
 
 .header-title {
     margin-top:0;
-    padding-top:15px;
     color:white;
-    font-size: 20px;
+    font-size: 16px;
+    display:inline;
+    white-space:nowrap;
+    padding:10px 20px 8px 20px;
+}
+
+.custom-tab {
+  padding:10px 20px 8px 20px;
+}
+
+.custom-tab-active {
+  border-bottom:2px solid white;
+}
+
+ion-segment {
+    display: block;
+    white-space: nowrap;
+    font-size: 0;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        display: none;
+    }
+
+    ion-segment-button.segment-button {
+        display: inline-block;
+        min-width: 100px;
+        width: auto;
+    }
+
+}
+
+.swipe-area {
+  height: 100%;
+}
+
+
+.button-camera {
+  margin-left: -50px;
+  margin-top: -25px;
+  border: none;
+}
+
+.row-profile {
+
+    box-sizing: border-box;
+    background-color:#AD1E24;
+}
+
+.col-md-6 {
+    width: 100%;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    box-sizing: border-box;
+    text-align:center;
+    padding:1em 0.9em;
+    color: white;
+    font-family: sans-serif;
+    font-weight: 900;
+}
+
+.border-top {
+  border-top: 1px inset white;
 }

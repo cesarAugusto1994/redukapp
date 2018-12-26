@@ -9,7 +9,12 @@ import { CONSTANTS } from '../../configs/constants/constants';
 
 import { HomePage } from '../home/home';
 
+import { PerfilPage } from '../perfil/perfil';
+import { MedidasPage } from '../medidas/medidas';
+
 import { Db } from '../../storage/db';
+
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 
 /**
  * Generated class for the PlanoPage page.
@@ -29,7 +34,23 @@ export class PlanoPage {
 
   public hasplanos = false;
 
-  constructor(public http: HttpClient, public auth: AuthProvider, public navCtrl: NavController, public navParams: NavParams, private db: Db) {
+  private options: NativeTransitionOptions = {
+    direction: 'up',
+    duration: 500,
+    slowdownfactor: 3,
+    slidePixels: 20,
+    iosdelay: 100,
+    androiddelay: 150,
+    fixedPixelsTop: 0,
+    fixedPixelsBottom: 60
+   };
+
+  constructor(public http: HttpClient,
+    private nativePageTransitions: NativePageTransitions,
+    public auth: AuthProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private db: Db) {
   }
 
   ionViewDidLoad() {
@@ -38,6 +59,28 @@ export class PlanoPage {
         this.planos = data;
         this.hasplanos = data ? true : false;
     });
+
+  }
+
+  swipeLeft(event: any): any {
+
+    let nav = this.navCtrl.getActive();
+
+    if(nav.name === 'PlanoPage') {
+        this.nativePageTransitions.slide(this.options);
+        this.navCtrl.push(MedidasPage);
+    }
+
+  }
+
+  swipeRight(event: any): any {
+
+    let nav = this.navCtrl.getActive();
+
+    if(nav.name === 'PlanoPage') {
+      this.nativePageTransitions.slide(this.options);
+      this.navCtrl.setRoot(HomePage);
+    }
 
   }
 
@@ -69,7 +112,7 @@ export class PlanoPage {
 
   }
 
-  public getPlanos() {
+  getPlanos() {
 
       let authKey = this.auth.getToken();
 

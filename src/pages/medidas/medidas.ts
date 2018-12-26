@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController, ToastController} from 'ionic-angular';
+
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import 'rxjs/add/operator/map';
@@ -11,6 +14,9 @@ import { MedidasAddPage } from '../medidas-add/medidas-add';
 import { CONSTANTS } from '../../configs/constants/constants';
 
 import { HomePage } from '../home/home';
+
+import { PlanoPage } from '../plano/plano';
+import { RecomendacaoPage } from '../recomendacao/recomendacao';
 
 import { Db } from '../../storage/db';
 
@@ -38,7 +44,19 @@ export class MedidasPage {
 
   private loading: Loading;
 
+  private options: NativeTransitionOptions = {
+    direction: 'up',
+    duration: 500,
+    slowdownfactor: 3,
+    slidePixels: 20,
+    iosdelay: 100,
+    androiddelay: 150,
+    fixedPixelsTop: 0,
+    fixedPixelsBottom: 60
+   };
+
   constructor(public http: HttpClient,
+    private nativePageTransitions: NativePageTransitions,
     public navCtrl: NavController,
     public navParams: NavParams,
     private auth: AuthProvider,
@@ -59,6 +77,30 @@ export class MedidasPage {
 
   }
 
+  swipeLeft(event: any): any {
+
+    let nav = this.navCtrl.getActive();
+
+    if(nav.name === 'MedidasPage') {
+      this.nativePageTransitions.slide(this.options);
+      this.navCtrl.push(RecomendacaoPage);
+        //this.navCtrl.setRoot(RecomendacaoPage);
+    }
+
+  }
+
+  swipeRight(event: any): any {
+
+    let nav = this.navCtrl.getActive();
+
+    if(nav.name === 'MedidasPage') {
+      this.nativePageTransitions.slide(this.options);
+      this.navCtrl.push(PlanoPage);
+        //this.navCtrl.setRoot(PlanoPage);
+    }
+
+  }
+
   backToHome() {
     this.navCtrl.setRoot(HomePage);
   }
@@ -68,9 +110,7 @@ export class MedidasPage {
   }
 
   delete(item) {
-
     this.presentConfirmarRemocao(item);
-
   }
 
   presentConfirmarRemocao(item) {
@@ -173,7 +213,6 @@ export class MedidasPage {
   }
 
   public deletarMedida(item) {
-
 
     this.remove(item).then(data => {
 

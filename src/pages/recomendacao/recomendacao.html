@@ -10,19 +10,14 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-
-    <ion-buttons end>
-      <button padding ion-button (click)="backToHome()">
-        <ion-icon name="md-arrow-round-back"></ion-icon>
-      </button>
-    </ion-buttons>
-
     <ion-title></ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content>
+
+  <div style="height:100%" (swiperight)="swipeRight($event)" (swipeleft)="swipeLeft($event)">
 
   <div class="header-box"></div>
 
@@ -48,6 +43,8 @@
         <ion-item-divider color="light" class="title">Outras Recomendações</ion-item-divider>
         <div padding>{{recomendacoes}}</div>
     </ion-item-group>
+
+  </div>
 
   </div>
 

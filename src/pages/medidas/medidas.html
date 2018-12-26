@@ -12,18 +12,14 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-buttons end>
-      <button padding ion-button (click)="backToHome()">
-        <ion-icon name="md-arrow-round-back"></ion-icon>
-      </button>
-    </ion-buttons>
-
     <ion-title></ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content>
+
+  <div style="height:100%" (swipeleft)="swipeLeft($event)" (swiperight)="swipeRight($event)" >
 
   <div class="header-box"></div>
 
@@ -57,7 +53,7 @@
 
         <ion-item-sliding  *ngFor ="let altura of alturas" (ionSwipe)="delete(altura)" >
           <ion-item>
-            {{altura.data}} 
+            {{altura.data}}
             <p item-end>{{altura.valor}}</p>
             </ion-item>
           <ion-item-options>
@@ -66,6 +62,8 @@
         </ion-item-sliding>
 
       </ion-list>
+
+  </div>
 
   </div>
 

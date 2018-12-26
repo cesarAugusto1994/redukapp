@@ -1,8 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { App, Nav, Platform, MenuController, AlertController, Events } from 'ionic-angular';
+import { NavController, App, Nav, Platform, MenuController, AlertController, Events } from 'ionic-angular';
+
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 
@@ -37,6 +41,7 @@ export class MyApp {
   pages: Array<{title: string, component: any, icon: String}>;
 
   constructor(public platform: Platform,
+    private nativePageTransitions: NativePageTransitions,
     public app: App,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
@@ -53,10 +58,10 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Início', component: HomePage, icon: 'menu' },
-      { title: 'Meus Dados', component: PerfilPage, icon: 'person' },
       { title: 'Plano Alimentar', component: PlanoPage, icon: 'restaurant' },
       { title: 'Medidas', component: MedidasPage, icon: 'speedometer' },
       { title: 'Recomendações', component: RecomendacaoPage, icon: 'heart' },
+      { title: 'Meus Dados', component: PerfilPage, icon: 'person' },
 
     ];
 
@@ -146,8 +151,30 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    //this.nav.setRoot(page.component);
 
+    let options: NativeTransitionOptions = {
+      direction: 'up',
+      duration: 500,
+      slowdownfactor: 3,
+      slidePixels: 20,
+      iosdelay: 100,
+      androiddelay: 150,
+      fixedPixelsTop: 0,
+      fixedPixelsBottom: 60
+     };
+
+    //this.nativePageTransitions.slide(options);
+
+    //if(page.component.name === 'HomePage') {
+      //this.nav.setRoot(page.component);
+    //} else {
+      //this.nav.push(page.component);
+    //}
+
+    this.nav.setRoot(HomePage, {
+      page: page.component.name
+    });
 
   }
 

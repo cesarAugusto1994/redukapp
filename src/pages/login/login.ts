@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, LoadingController, Loading, IonicPage, MenuController } from 'ionic-angular';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 import { AuthProvider } from './../../providers/auth/auth';
 
 import { HomePage } from '../home/home';
@@ -40,8 +41,20 @@ export class LoginPage {
   private loading: Loading;
   public registerCredentials = { email: '', password: '' };
 
+  private options: NativeTransitionOptions = {
+    direction: 'up',
+    duration: 500,
+    slowdownfactor: 3,
+    slidePixels: 20,
+    iosdelay: 100,
+    androiddelay: 150,
+    fixedPixelsTop: 0,
+    fixedPixelsBottom: 60
+   };
+
   constructor(
     public navCtrl: NavController,
+    private nativePageTransitions: NativePageTransitions,
     public navParams: NavParams,
     private auth: AuthProvider,
     private menu: MenuController,
@@ -96,7 +109,11 @@ export class LoginPage {
 
         this.auth.loginOnlyEmail(this.email).subscribe(allowed => {
           if (allowed) {
+            //this.navCtrl.setRoot(HomePage);
+
+            this.nativePageTransitions.fade(this.options);
             this.navCtrl.setRoot(HomePage);
+
           } else {
             this.logout();
             this.showError("Credenciais não batem com os registros.");
