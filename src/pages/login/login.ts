@@ -4,6 +4,7 @@ import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/na
 import { AuthProvider } from './../../providers/auth/auth';
 
 import { HomePage } from '../home/home';
+import { PlanoPage } from '../plano/plano';
 
 import { GooglePlus } from '@ionic-native/google-plus';
 
@@ -134,7 +135,7 @@ export class LoginPage {
     this.showLoading()
     this.auth.login(this.registerCredentials).subscribe(allowed => {
       if (allowed) {
-        this.navCtrl.setRoot(HomePage);
+        this.navCtrl.setRoot(PlanoPage);
       } else {
         this.showError("Credenciais não batem com os registros.");
       }

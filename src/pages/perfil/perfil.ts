@@ -20,6 +20,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { AlterarSenhaPage } from '../alterar-senha/alterar-senha';
 import { UploadImagePage } from '../upload-image/upload-image';
 
+import { Db } from '../../storage/db';
+
 /**
  * Generated class for the PerfilPage page.
  *
@@ -43,7 +45,7 @@ export class PerfilPage {
 
   private options: NativeTransitionOptions = {
     direction: 'up',
-    duration: 500,
+    duration: 100,
     slowdownfactor: 3,
     slidePixels: 20,
     iosdelay: 100,
@@ -51,6 +53,8 @@ export class PerfilPage {
     fixedPixelsTop: 0,
     fixedPixelsBottom: 60
    };
+
+   private log;
 
   constructor(public http: HttpClient,
     private nativePageTransitions: NativePageTransitions,
@@ -65,6 +69,7 @@ export class PerfilPage {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public events: Events,
+    private db: Db,
     public actionSheetCtrl: ActionSheetController) {
   }
 
@@ -83,9 +88,16 @@ export class PerfilPage {
     let nav = this.navCtrl.getActive();
 
     if(nav.name === 'PerfilPage') {
-        this.nativePageTransitions.slide(this.options);
-        this.navCtrl.push(RecomendacaoPage);
+        this.nativePageTransitions.fade(this.options);
+        this.navCtrl.setRoot(RecomendacaoPage);
     }
+
+  }
+
+  previous() {
+
+    this.nativePageTransitions.fade(this.options);
+    this.navCtrl.setRoot(RecomendacaoPage);
 
   }
 
@@ -141,7 +153,7 @@ export class PerfilPage {
     this.camera.getPicture(options).then((imageData) => {
       this.imageURI = imageData;
       console.log(imageData);
-      this.presentToast(JSON.stringify(imageData));
+      //this.presentToast(JSON.stringify(imageData));
       this.uploadFile();
 
     }, (err) => {
@@ -162,34 +174,55 @@ export class PerfilPage {
 
     let authKey = this.auth.getToken();
 
+    let filename = 'image.jpg';
+
     let options: FileUploadOptions = {
-      fileKey: 'ionicfile',
-      fileName: 'ionicfile',
+      fileKey: "file",
+      fileName: filename,
       chunkedMode: false,
-      mimeType: "image/jpeg",
+      mimeType: "multipart/form-data",
       headers: {
-        'X-Requested-With':'XMLHttpRequest',
         Connection: 'close',
+        Authorization: authKey,
       },
-      params: {
-        'Content-Type':  'application/json',
-        'Authorization': authKey,
-        Accept: 'application/json;odata=verbose',
-      }
+      params : {'fileName': filename},
     }
 
-    fileTransfer.upload(this.imageURI, encodeURI(CONSTANTS.API_ENDPOINT_USER_UPLOAD), options)
-      .then((data) => {
+    fileTransfer.upload(this.imageURI, CONSTANTS.API_ENDPOINT_USER_UPLOAD, options)
+      .then((result) => {
       //console.log(data+" Uploaded Successfully");
-      this.presentToast(JSON.stringify(data));
-      this.imageFileName = "avatar.jpg";
+      //this.presentToast(JSON.stringify(result));
+      this.imageFileName = "avatar";
+
       loader.dismiss();
-      this.presentToast("Image uploaded successfully");
+
+      //this.events.publish('paciente:updated', result, Date.now());
+      this.events.publish('user:logged', result, Date.now());
+
+      this.setPaciente(result);
+
+      //this.events.publish('paciente:updated', result, Date.now());
+      //this.db.update('paciente', result);
+
+      this.navCtrl.setRoot(this.navCtrl.getActive().component);
+
+      this.presentToast("Imagem enviada com sucesso.");
+
+
     }, (err) => {
-      console.log(err);
+
+      //console.log((err));
+
       loader.dismiss();
       this.presentToast(err);
+
+      //this.log = JSON.stringify(err);
+
     });
+  }
+
+  setPaciente(paciente) {
+    this.paciente = paciente;
   }
 
   presentToast(msg) {
@@ -216,7 +249,7 @@ export class PerfilPage {
   }
 
   toEdit() {
-    this.navCtrl.setRoot(PerfilEditarPage);
+    this.navCtrl.push(PerfilEditarPage);
   }
 
   getPaciente() {

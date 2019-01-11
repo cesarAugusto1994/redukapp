@@ -53,7 +53,7 @@ export class HomePage {
 
   private options: NativeTransitionOptions = {
     direction: 'up',
-    duration: 500,
+    duration: 100,
     slowdownfactor: 3,
     slidePixels: 20,
     iosdelay: 100,
@@ -78,8 +78,6 @@ export class HomePage {
       private loadingCtrl: LoadingController,
       private pacienteProvider: PacienteProvider,
       public consultas: ConsultasProvider) {
-
-
 
       this.menu.enable(true);
 
@@ -115,8 +113,15 @@ export class HomePage {
 
     if(nav.name === 'HomePage') {
         this.nativePageTransitions.fade(this.options);
-        this.navCtrl.push(PlanoPage);
+        this.navCtrl.setRoot(PlanoPage);
     }
+
+  }
+
+  next() {
+
+    this.nativePageTransitions.fade(this.options);
+    this.navCtrl.setRoot(PlanoPage);
 
   }
 

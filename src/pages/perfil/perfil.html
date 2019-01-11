@@ -23,14 +23,24 @@
 
   <img class="logo" src="./assets/imgs/logo_navbar_2.png"/>
 
-  <div class="header-box-title"><p class="header-title">Perfil</p></div>
+  <div class="header-box-title">
+    <p class="header-title">
+
+      <span class="custom-tab custom-tab-left" (click)="previous()">Recomendações</span>
+      <span class="custom-tab custom-tab-active">Meus Dados</span>
+      <span class="custom-tab custom-tab-right"></span>
+
+    </p>
+  </div>
 
   <div class="box-avatar" *ngIf="paciente">
-
       <img class="avatar" src="{{paciente.avatar}}">
 
-      <h5 class="avatar-title" *ngIf="paciente">{{paciente.nome}}</h5>
+      <button ion-button icon-only class="button-camera" color="app_color" (click)="getImage()">
+        <ion-icon name="camera"></ion-icon>
+      </button>
 
+      <h5 class="avatar-title" *ngIf="paciente">{{paciente.nome}}</h5>
   </div>
 
   <div class="row border-top">
@@ -38,7 +48,7 @@
     <div class="col-md-6">
 
       <p>Email</p>
-      <p *ngIf="paciente">{{paciente.email}}</p>
+      <p style="white-space: nowrap;" *ngIf="paciente">{{paciente.email}}</p>
 
     </div>
 
@@ -66,12 +76,14 @@
 
   </div>
 
+  <div padding><p *ngIf="log">{{log}}</p></div>
+
+  </div>
+
   <ion-fab right bottom>
     <button color="app_color" ion-fab (click)="toEdit()">
         <ion-icon ios="ios-create" md="md-create"></ion-icon>
     </button>
   </ion-fab>
-
-  </div>
 
 </ion-content>

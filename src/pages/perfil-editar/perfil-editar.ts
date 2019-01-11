@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { IonicPage, NavController, NavParams, LoadingController, Loading, Events } from 'ionic-angular';
 import { AuthProvider } from './../../providers/auth/auth';
 import { PacienteProvider } from './../../providers/paciente/paciente';
 import { Storage } from "@ionic/storage";
 
-import { CONSTANTS } from '../../configs/constants/constants';
 import { Paciente } from '../../models/paciente/paciente';
 
 import { PerfilPage } from '../perfil/perfil';

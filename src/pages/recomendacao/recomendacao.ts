@@ -36,7 +36,7 @@ export class RecomendacaoPage {
 
   private options: NativeTransitionOptions = {
     direction: 'up',
-    duration: 500,
+    duration: 100,
     slowdownfactor: 3,
     slidePixels: 20,
     iosdelay: 100,
@@ -62,9 +62,8 @@ export class RecomendacaoPage {
     let nav = this.navCtrl.getActive();
 
     if(nav.name === 'RecomendacaoPage') {
-      this.nativePageTransitions.slide(this.options);
-      this.navCtrl.push(MedidasPage);
-        //this.navCtrl.setRoot(MedidasPage);
+      this.nativePageTransitions.fade(this.options);
+      this.navCtrl.setRoot(MedidasPage);
     }
 
   }
@@ -74,10 +73,23 @@ export class RecomendacaoPage {
     let nav = this.navCtrl.getActive();
 
     if(nav.name === 'RecomendacaoPage') {
-      this.nativePageTransitions.slide(this.options);
-      this.navCtrl.push(PerfilPage);
-        //this.navCtrl.setRoot(PerfilPage);
+      this.nativePageTransitions.fade(this.options);
+      this.navCtrl.setRoot(PerfilPage);
     }
+
+  }
+
+  previous() {
+
+    this.nativePageTransitions.fade(this.options);
+    this.navCtrl.setRoot(MedidasPage);
+
+  }
+
+  next() {
+
+    this.nativePageTransitions.fade(this.options);
+    this.navCtrl.setRoot(PerfilPage);
 
   }
 

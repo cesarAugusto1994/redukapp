@@ -19,53 +19,63 @@
 
 <ion-content>
 
-  <div style="height:100%" (swipeleft)="swipeLeft($event)" (swiperight)="swipeRight($event)" >
+  <div class="fullpage" (swipeleft)="swipeLeft($event)" (swiperight)="swipeRight($event)" >
 
   <div class="header-box"></div>
 
   <img class="logo" src="./assets/imgs/logo_navbar_2.png"/>
 
-  <div class="header-box-title"><p class="header-title">Medidas</p></div>
+  <div class="header-box-title">
+    <p class="header-title">
+
+      <span class="custom-tab custom-tab-left" (click)="previous()">Plano Alimentar</span>
+      <span class="custom-tab custom-tab-active">Medidas</span>
+      <span class="custom-tab custom-tab-right" (click)="next()">Recomendações</span>
+
+    </p>
+  </div>
 
   <div padding>
 
-      <ion-list no-lines *ngIf="pesos">
+      <ion-list *ngIf="pesos">
         <ion-item-divider>
           Peso
         </ion-item-divider>
 
-        <ion-item-sliding  *ngFor ="let peso of pesos" (ionSwipe)="delete(peso)" >
-          <ion-item>
+          <ion-item *ngFor ="let peso of pesos" (ionSwipe)="delete(peso)">
             {{peso.data}}
-            <p item-end>{{peso.valor}}</p>
-            </ion-item>
-          <ion-item-options>
-            <button *ngIf="peso.delete" ion-button color="danger" expandable (click)="delete(peso)"><ion-icon name="trash"></ion-icon> Remover</button>
-          </ion-item-options>
-        </ion-item-sliding>
+            <p>{{peso.valor}}</p>
+
+            <div class="buttons" item-end>
+                <button *ngIf="peso.delete" ion-button color="danger" expandable (click)="delete(peso)"><ion-icon name="trash"></ion-icon> </button>
+            </div>
+
+          </ion-item>
 
       </ion-list>
 
-      <ion-list no-lines *ngIf="alturas">
+      <ion-list *ngIf="alturas">
         <ion-item-divider>
           Altura
         </ion-item-divider>
 
-        <ion-item-sliding  *ngFor ="let altura of alturas" (ionSwipe)="delete(altura)" >
-          <ion-item>
-            {{altura.data}}
-            <p item-end>{{altura.valor}}</p>
-            </ion-item>
-          <ion-item-options>
-            <button *ngIf="altura.delete" ion-button color="danger" expandable (click)="delete(altura)"><ion-icon name="trash"></ion-icon> Remover</button>
-          </ion-item-options>
-        </ion-item-sliding>
+        <ion-item *ngFor ="let altura of alturas" (ionSwipe)="delete(altura)">
+          {{altura.data}}
+          <p>{{altura.valor}}</p>
+          <div class="buttons" item-end>
+              <button *ngIf="altura.delete" ion-button color="danger" expandable (click)="delete(altura)"><ion-icon name="trash"></ion-icon> </button>
+          </div>
+        </ion-item>
 
       </ion-list>
 
+      <div class="margin100"></div>
+
   </div>
 
   </div>
+
+
 
   <ion-fab right bottom>
     <button color="app_color" ion-fab (click)="toAddMedidas()">

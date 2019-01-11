@@ -9,196 +9,40 @@
 
 <ion-content>
 
+  <div style="height:100%" (swipeleft)="swipeLeft($event)" (swiperight)="swipeRight($event)" >
+
   <div class="header-box"></div>
 
   <img class="logo" src="./assets/imgs/logo_navbar_2.png"/>
 
   <div class="header-box-title">
-
-    <ion-segment [(ngModel)]="page" color="light" (ionChange)="segmentChanged($event)">
-      <ion-segment-button value="HomePage">
-        Início
-      </ion-segment-button>
-      <ion-segment-button value="PlanoPage">
-        Plano Alimentar
-      </ion-segment-button>
-      <ion-segment-button value="MedidasPage">
-        Medidas
-      </ion-segment-button>
-      <ion-segment-button value="RecomendacaoPage">
-        Recomendações
-      </ion-segment-button>
-      <ion-segment-button value="PerfilPage">
-        Meus Dados
-      </ion-segment-button>
-    </ion-segment>
-
+    <p class="header-title">
+      <span class="custom-tab custom-tab-left"></span>
+      <span class="custom-tab custom-tab-active">Informações</span>
+      <span class="custom-tab custom-tab-right" (click)="next()">Plano Alimentar</span>
+    </p>
   </div>
 
-    <div [ngSwitch]="page" swipeSegment [tabsList]="pages" [(currentTab)]="page" (tabChanged)="onTabChanged($event)" class="swipe-area">
+    <div padding>
 
-      <div *ngSwitchCase="'HomePage'" style="height:100%">
+      <h5>Suas Consultas</h5>
 
-        <div padding>
-
-        <h5>Suas Consultas</h5>
-
-        <ion-list no-lines>
-          <ion-item *ngFor ="let consulta of itens">
-            <ion-avatar item-start>
-                {{consulta.horario}}
-            </ion-avatar>
-            <h2>Agendada para: {{consulta.data}}</h2>
-            Observações:{{consulta.notas}}
-            <p *ngIf="consulta.status == 'Pendente'" style="color: #f8ac59;">Situação: {{consulta.status}} </p>
-            <p *ngIf="consulta.status == 'Finalizada'" style="color: #1ab394;">Situação: {{consulta.status}} </p>
-            <p *ngIf="consulta.status == 'Cancelada'" style="color: #ed5565;">Situação: {{consulta.status}} </p>
-            <p *ngIf="consulta.status == 'Em Atendimento'" style="color: #23c6c8;">Situação: {{consulta.status}} </p>
-          </ion-item>
-        </ion-list>
-
-        </div>
-
-      </div>
-
-      <div *ngSwitchCase="'PlanoPage'" style="height:100%">
-
-        <div padding>
-
-          <ion-item-group *ngIf="planos">
-            <div *ngFor ="let plano of planos">
-              <ion-item-divider color="light" class="title">{{ plano.nome }} <p item-end>{{ plano.horario }}</p></ion-item-divider>
-              <ion-list>
-                <ion-item *ngFor ="let alimento of plano.alimentos" >{{alimento.nome}}<p item-end>{{alimento.quantidade}}</p></ion-item>
-              </ion-list>
-            </div>
-          </ion-item-group>
-
-        </div>
-
-      </div>
-
-      <div *ngSwitchCase="'MedidasPage'" style="height:100%">
-
-        <div padding>
-
-        <button color="app_color" ion-button block (click)="toAddMedidas()">
-            <ion-icon name="add"></ion-icon>
-        </button>
-
-        <ion-list no-lines *ngIf="pesos">
-          <ion-item-divider>
-            Peso
-          </ion-item-divider>
-
-          <ion-item-sliding  *ngFor ="let peso of pesos" (ionSwipe)="delete(peso)" >
-            <ion-item>
-              {{peso.data}}
-              <p item-end>{{peso.valor}}</p>
-              </ion-item>
-            <ion-item-options>
-              <button *ngIf="peso.delete" ion-button color="danger" expandable (click)="delete(peso)"><ion-icon name="trash"></ion-icon> Remover</button>
-            </ion-item-options>
-          </ion-item-sliding>
-
-        </ion-list>
-
-        <ion-list no-lines *ngIf="alturas">
-          <ion-item-divider>
-            Altura
-          </ion-item-divider>
-
-          <ion-item-sliding  *ngFor ="let altura of alturas" (ionSwipe)="delete(altura)" >
-            <ion-item>
-              {{altura.data}}
-              <p item-end>{{altura.valor}}</p>
-              </ion-item>
-            <ion-item-options>
-              <button *ngIf="altura.delete" ion-button color="danger" expandable (click)="delete(altura)"><ion-icon name="trash"></ion-icon> Remover</button>
-            </ion-item-options>
-          </ion-item-sliding>
-
-        </ion-list>
-
-        </div>
-
-      </div>
-
-      <div *ngSwitchCase="'RecomendacaoPage'" style="height:100%">
-
-        <div padding>
-
-        <ion-item-group>
-            <ion-item-divider color="light" class="title">Atividades Fisicas</ion-item-divider>
-            <ion-list no-lines>
-              <ion-item *ngFor ="let atividade of atividades" >{{atividade.nome}}<p>{{atividade.duracao}} {{atividade.tempo}} {{atividade.repeticoes}}</p></ion-item>
-            </ion-list>
-            <ion-item-divider color="light" class="title">Alimentos Evitados</ion-item-divider>
-            <ion-list no-lines>
-              <ion-item *ngFor ="let alimento of alimentos" >{{alimento.nome}}</ion-item>
-            </ion-list>
-            <ion-item-divider color="light" class="title">Injestão de Água</ion-item-divider>
-            <ion-list no-lines>
-              <ion-item>{{injestao}}</ion-item>
-            </ion-list>
-            <ion-item-divider color="light" class="title">Outras Recomendações</ion-item-divider>
-            <div padding>{{recomendacoes}}</div>
-        </ion-item-group>
-
-        </div>
-
-      </div>
-
-      <div *ngSwitchCase="'PerfilPage'" style="height:100%">
-
-        <div class="box-avatar" *ngIf="paciente">
-
-            <img class="avatar" src="{{paciente.avatar}}">
-
-            <h5 class="avatar-title" *ngIf="paciente">{{paciente.nome}}</h5>
-
-        </div>
-
-        <div class="row-profile border-top">
-
-          <div class="col-md-6">
-
-            <p>Email</p>
-            <p *ngIf="paciente">{{paciente.email}}</p>
-
-          </div>
-
-          <div class="col-md-6">
-
-            <p>Telefone</p>
-            <p *ngIf="paciente">{{paciente.telefone}}</p>
-
-          </div>
-
-        </div>
-
-        <div padding>
-
-          <button color="app_color" ion-button block (click)="toEdit()">
-              <ion-icon ios="ios-create" md="md-create"></ion-icon>
-          </button>
-
-          <ion-list no-lines *ngIf="paciente">
-            <ion-item><p>Nascimento</p><h2>{{paciente.nascimento_formatado}}</h2></ion-item>
-            <ion-item><p>Gênero</p><h2>{{ paciente.sexo == 'M' ? 'Masculino' : 'Feminino' }}</h2></ion-item>
-            <ion-item><p>Ocupação</p><h2>{{ paciente.ocupacao }}</h2></ion-item>
-            <ion-item><p>CEP</p><h2>{{ paciente.cep }}</h2></ion-item>
-            <ion-item><p>Endereço</p><h2>{{ paciente.endereco }}</h2></ion-item>
-            <ion-item><p>Número</p><h2>{{ paciente.numero }}</h2></ion-item>
-            <ion-item><p>Cidade</p><h2>{{ paciente.cidade }}</h2></ion-item>
-            <ion-item><p>Estado</p><h2>{{ paciente.estado }}</h2></ion-item>
-          </ion-list>
-
-        </div>
-
-      </div>
+      <ion-list no-lines>
+        <ion-item *ngFor ="let consulta of itens">
+          <ion-avatar item-start>
+              {{consulta.horario}}
+          </ion-avatar>
+          <h2>Agendada para: {{consulta.data}}</h2>
+          Observações:{{consulta.notas}}
+          <p *ngIf="consulta.status == 'Pendente'" style="color: #f8ac59;">Situação: {{consulta.status}} </p>
+          <p *ngIf="consulta.status == 'Finalizada'" style="color: #1ab394;">Situação: {{consulta.status}} </p>
+          <p *ngIf="consulta.status == 'Cancelada'" style="color: #ed5565;">Situação: {{consulta.status}} </p>
+          <p *ngIf="consulta.status == 'Em Atendimento'" style="color: #23c6c8;">Situação: {{consulta.status}} </p>
+        </ion-item>
+      </ion-list>
 
     </div>
 
+  </div>
 
 </ion-content>

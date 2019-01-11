@@ -21,8 +21,6 @@ export class ConsultasProvider {
 
   private itens: any;
 
-  private hasConsultas = false;
-
   constructor(public http: HttpClient, private auth: AuthProvider, private db: Db, public events: Events) {
   }
 
@@ -38,7 +36,6 @@ export class ConsultasProvider {
           .then(data => {
               this.itens = (data);
               this.db.create(index, data);
-              this.hasConsultas = this.itens ? true : false;
           });
 
         }

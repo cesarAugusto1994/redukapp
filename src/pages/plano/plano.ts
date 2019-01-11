@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -36,7 +36,7 @@ export class PlanoPage {
 
   private options: NativeTransitionOptions = {
     direction: 'up',
-    duration: 500,
+    duration: 100,
     slowdownfactor: 3,
     slidePixels: 20,
     iosdelay: 100,
@@ -49,8 +49,11 @@ export class PlanoPage {
     private nativePageTransitions: NativePageTransitions,
     public auth: AuthProvider,
     public navCtrl: NavController,
+    private menu: MenuController,
     public navParams: NavParams,
     private db: Db) {
+
+      this.menu.enable(true);
   }
 
   ionViewDidLoad() {
@@ -67,8 +70,8 @@ export class PlanoPage {
     let nav = this.navCtrl.getActive();
 
     if(nav.name === 'PlanoPage') {
-        this.nativePageTransitions.slide(this.options);
-        this.navCtrl.push(MedidasPage);
+        this.nativePageTransitions.fade(this.options);
+        this.navCtrl.setRoot(MedidasPage);
     }
 
   }
@@ -78,9 +81,23 @@ export class PlanoPage {
     let nav = this.navCtrl.getActive();
 
     if(nav.name === 'PlanoPage') {
-      this.nativePageTransitions.slide(this.options);
+      this.nativePageTransitions.fade(this.options);
       this.navCtrl.setRoot(HomePage);
     }
+
+  }
+
+  previous() {
+
+    this.nativePageTransitions.fade(this.options);
+    this.navCtrl.setRoot(HomePage);
+
+  }
+
+  next() {
+
+    this.nativePageTransitions.fade(this.options);
+    this.navCtrl.setRoot(MedidasPage);
 
   }
 

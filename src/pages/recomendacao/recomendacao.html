@@ -23,21 +23,29 @@
 
   <img class="logo" src="./assets/imgs/logo_navbar_2.png"/>
 
-  <div class="header-box-title"><p class="header-title">Recomendações</p></div>
+  <div class="header-box-title">
+    <p class="header-title">
+
+      <span class="custom-tab custom-tab-left" (click)="previous()">Medidas</span>
+      <span class="custom-tab custom-tab-active">Recomendações</span>
+      <span class="custom-tab custom-tab-right" (click)="next()">Meus Dados</span>
+
+    </p>
+  </div>
 
   <div padding>
 
     <ion-item-group>
         <ion-item-divider color="light" class="title">Atividades Fisicas</ion-item-divider>
-        <ion-list no-lines>
+        <ion-list>
           <ion-item *ngFor ="let atividade of atividades" >{{atividade.nome}}<p>{{atividade.duracao}} {{atividade.tempo}} {{atividade.repeticoes}}</p></ion-item>
         </ion-list>
         <ion-item-divider color="light" class="title">Alimentos Evitados</ion-item-divider>
-        <ion-list no-lines>
+        <ion-list>
           <ion-item *ngFor ="let alimento of alimentos" >{{alimento.nome}}</ion-item>
         </ion-list>
         <ion-item-divider color="light" class="title">Injestão de Água</ion-item-divider>
-        <ion-list no-lines>
+        <ion-list>
           <ion-item>{{injestao}}</ion-item>
         </ion-list>
         <ion-item-divider color="light" class="title">Outras Recomendações</ion-item-divider>

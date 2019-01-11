@@ -6,7 +6,6 @@ import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/na
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomeTabsPage } from '../pages/home-tabs/home-tabs';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 
@@ -57,7 +56,7 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Início', component: HomePage, icon: 'menu' },
+      { title: 'Informações', component: HomePage, icon: 'menu' },
       { title: 'Plano Alimentar', component: PlanoPage, icon: 'restaurant' },
       { title: 'Medidas', component: MedidasPage, icon: 'speedometer' },
       { title: 'Recomendações', component: RecomendacaoPage, icon: 'heart' },
@@ -107,8 +106,9 @@ export class MyApp {
           });
 
         this.rootPage = response
-                      ? HomePage
+                      ? PlanoPage
                       : LoginPage;
+
       })
 
     });
@@ -118,7 +118,7 @@ export class MyApp {
         let nav = this.app.getActiveNavs()[0];
         let activeView = nav.getActive();
         // Checks if can go back before show up the alert
-        if(activeView.name === 'HomePage') {
+        if(activeView.name === 'HomePage' || activeView.name === 'LoginPage') {
             if (nav.canGoBack()){
                 nav.pop();
             } else {
@@ -129,10 +129,10 @@ export class MyApp {
                         text: 'Cancelar',
                         role: 'cancel',
                         handler: () => {
-                          this.nav.setRoot(HomePage);
+                          //this.nav.setRoot(HomePage);
                         }
                     },{
-                        text: 'Sim',
+                        text: 'Sair',
                         handler: () => {
                           this.platform.exitApp();
                         }
@@ -142,7 +142,7 @@ export class MyApp {
             }
         } else {
           if(activeView.name != 'LoginPage') {
-              this.nav.setRoot(HomePage);
+              this.nav.setRoot(PlanoPage);
           }
         }
       });
@@ -155,7 +155,7 @@ export class MyApp {
 
     let options: NativeTransitionOptions = {
       direction: 'up',
-      duration: 500,
+      duration: 100,
       slowdownfactor: 3,
       slidePixels: 20,
       iosdelay: 100,
@@ -164,18 +164,16 @@ export class MyApp {
       fixedPixelsBottom: 60
      };
 
-    //this.nativePageTransitions.slide(options);
+    this.nativePageTransitions.fade(options);
 
-    //if(page.component.name === 'HomePage') {
-      //this.nav.setRoot(page.component);
-    //} else {
-      //this.nav.push(page.component);
-    //}
-
-    this.nav.setRoot(HomePage, {
-      page: page.component.name
-    });
-
+    this.nav.setRoot(page.component);
+/*
+    if(page.component.name === 'HomePage') {
+      this.nav.setRoot(page.component);
+    } else {
+      this.nav.push(page.component);
+    }
+*/
   }
 
   logoutClicked() {

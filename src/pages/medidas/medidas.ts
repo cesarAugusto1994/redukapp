@@ -46,7 +46,7 @@ export class MedidasPage {
 
   private options: NativeTransitionOptions = {
     direction: 'up',
-    duration: 500,
+    duration: 100,
     slowdownfactor: 3,
     slidePixels: 20,
     iosdelay: 100,
@@ -82,9 +82,8 @@ export class MedidasPage {
     let nav = this.navCtrl.getActive();
 
     if(nav.name === 'MedidasPage') {
-      this.nativePageTransitions.slide(this.options);
-      this.navCtrl.push(RecomendacaoPage);
-        //this.navCtrl.setRoot(RecomendacaoPage);
+      this.nativePageTransitions.fade(this.options);
+      this.navCtrl.setRoot(RecomendacaoPage);
     }
 
   }
@@ -94,10 +93,23 @@ export class MedidasPage {
     let nav = this.navCtrl.getActive();
 
     if(nav.name === 'MedidasPage') {
-      this.nativePageTransitions.slide(this.options);
-      this.navCtrl.push(PlanoPage);
-        //this.navCtrl.setRoot(PlanoPage);
+      this.nativePageTransitions.fade(this.options);
+      this.navCtrl.setRoot(PlanoPage);
     }
+
+  }
+
+  previous() {
+
+    this.nativePageTransitions.fade(this.options);
+    this.navCtrl.setRoot(PlanoPage);
+
+  }
+
+  next() {
+
+    this.nativePageTransitions.fade(this.options);
+    this.navCtrl.setRoot(RecomendacaoPage);
 
   }
 
@@ -106,7 +118,7 @@ export class MedidasPage {
   }
 
   toAddMedidas() {
-    this.navCtrl.setRoot(MedidasAddPage);
+    this.navCtrl.push(MedidasAddPage);
   }
 
   delete(item) {

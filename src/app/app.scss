@@ -15,6 +15,11 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+.item-divider {
+  background-color: #ecf0f1;
+  font-size: 18px;
+  color: black;
+}
 
 .container {
   background-color:#fff;
@@ -83,14 +88,29 @@
     display:inline;
     white-space:nowrap;
     padding:10px 20px 8px 20px;
+    width: 100%;
 }
 
 .custom-tab {
-  padding:10px 20px 8px 20px;
+  padding:0 0 5px 0;
+  width: 30%;
+  color:#F3F5F7;
+  font-size: 14px;
 }
 
 .custom-tab-active {
   border-bottom:2px solid white;
+  width: 40%;
+  color: white;
+  font-size: 16px;
+}
+
+.custom-tab-right {
+  float: right;
+}
+
+.custom-tab-left {
+  float: left;
 }
 
 ion-segment {
@@ -141,9 +161,16 @@ ion-segment {
     padding:1em 0.9em;
     color: white;
     font-family: sans-serif;
-    font-weight: 900;
 }
 
 .border-top {
   border-top: 1px inset white;
+}
+
+.fullpage {
+  height:100%;
+}
+
+.margin100 {
+  margin-bottom: 50px
 }
