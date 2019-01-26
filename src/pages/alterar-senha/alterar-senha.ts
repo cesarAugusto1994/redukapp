@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController, ToastController } from 'ionic-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { HomePage } from '../home/home';
@@ -33,12 +33,21 @@ export class AlterarSenhaPage {
     private auth: AuthProvider,
     private alertCtrl: AlertController,
     private db: Db,
+    public toastCtrl: ToastController,
     private loadingCtrl: LoadingController
   ) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AlterarSenhaPage');
+
+  }
+
+  presentToast(text) {
+    const toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000
+    });
+    toast.present();
   }
 
   backToPrevious() {
@@ -58,6 +67,7 @@ export class AlterarSenhaPage {
         this.showLoading();
 
         this.post(postData).then(data => {
+            this.presentToast('Senha atualizada com sucesso.');
             this.navCtrl.setRoot(this.navCtrl.getActive().component);
         });
 
@@ -79,7 +89,7 @@ export class AlterarSenhaPage {
     };
 
     return new Promise(resolve => {
-      this.http.post(CONSTANTS.API_ENDPOINT_MEDIDAS_STORE, JSON.stringify(postData), httpOptions)
+      this.http.post(CONSTANTS.API_ENDPOINT_USER_PASSWORD, JSON.stringify(postData), httpOptions)
         .subscribe(
           data => {
 

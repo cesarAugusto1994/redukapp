@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController, ToastController } from 'ionic-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { MedidasPage } from '../medidas/medidas';
@@ -38,6 +38,7 @@ export class MedidasAddPage {
     private auth: AuthProvider,
     private alertCtrl: AlertController,
     private db: Db,
+    public toastCtrl: ToastController,
     private loadingCtrl: LoadingController) {
   }
 
@@ -155,6 +156,7 @@ export class MedidasAddPage {
             this.showLoading();
 
             this.post(postData).then(data => {
+                this.presentToast('Medida adicionada com sucesso.');
                 this.navCtrl.setRoot(this.navCtrl.getActive().component);
             });
 
@@ -165,11 +167,7 @@ export class MedidasAddPage {
                   this.db.create('medidas', data);
             });
 
-            this.navCtrl.setRoot(HomePage, {
-              page: 'MedidasPage'
-            });
-
-            //this.goback();
+            this.navCtrl.setRoot(MedidasPage);
 
           }
         }
@@ -177,6 +175,14 @@ export class MedidasAddPage {
     });
     alert.present();
 
+  }
+
+  presentToast(text) {
+    const toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000
+    });
+    toast.present();
   }
 
   showLoading() {

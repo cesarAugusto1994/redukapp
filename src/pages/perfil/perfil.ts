@@ -130,6 +130,29 @@ export class PerfilPage {
       actionSheet.present();
   }
 
+  presentActionSheetOpcoes() {
+    const actionSheet = this.actionSheetCtrl.create({
+      title: 'Selecione uma opção',
+      buttons: [
+        {
+          text: 'Trocar Senha',
+          handler: () => {
+
+              this.navCtrl.push(AlterarSenhaPage);
+
+          }
+        },{
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
   showAlertaEnvioEmail() {
     const alert = this.alertCtrl.create({
       title: 'Atenção!',
@@ -165,7 +188,7 @@ export class PerfilPage {
   uploadFile() {
 
     let loader = this.loadingCtrl.create({
-      content: "Uploading..."
+      content: "Enviando..."
     });
 
     loader.present();
@@ -204,9 +227,11 @@ export class PerfilPage {
       //this.events.publish('paciente:updated', result, Date.now());
       //this.db.update('paciente', result);
 
-      this.navCtrl.setRoot(this.navCtrl.getActive().component);
+      //this.navCtrl.setRoot(this.navCtrl.getActive().component);
 
       this.presentToast("Imagem enviada com sucesso.");
+
+      window.location.reload();
 
 
     }, (err) => {

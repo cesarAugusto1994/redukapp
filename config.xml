@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="br.com.redukapp" version="1.0.105" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="br.com.appreduk" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Reduk - Nutrição Assistida</name>
     <description>Nutrição Assistida.</description>
     <author email="cezzaar@gmail.com" href="www.linkedin.com/in/césar-augusto-sousa-902b5356">César Augusto Sousa</author>

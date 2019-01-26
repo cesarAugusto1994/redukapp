@@ -13,6 +13,7 @@ import { PlanoPage } from '../pages/plano/plano';
 import { PerfilPage } from '../pages/perfil/perfil';
 import { MedidasPage } from '../pages/medidas/medidas';
 import { RecomendacaoPage } from '../pages/recomendacao/recomendacao';
+import { AlterarSenhaPage } from '../pages/alterar-senha/alterar-senha';
 
 import { Paciente } from '../models/paciente/paciente';
 

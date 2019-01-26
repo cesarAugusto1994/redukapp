@@ -17,6 +17,7 @@ import { MedidasAddPage } from '../pages/medidas-add/medidas-add';
 import { RecomendacaoPage } from '../pages/recomendacao/recomendacao';
 
 import { UploadImagePage } from '../pages/upload-image/upload-image';
+import { AlterarSenhaPage } from '../pages/alterar-senha/alterar-senha';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -64,7 +65,8 @@ import { SwipeSegmentDirective } from '../directives/swipe-segment';
     RecomendacaoPage,
     MedidasAddPage,
     UploadImagePage,
-    SwipeSegmentDirective
+    SwipeSegmentDirective,
+    AlterarSenhaPage
   ],
   imports: [
     BrowserModule,
@@ -88,7 +90,8 @@ import { SwipeSegmentDirective } from '../directives/swipe-segment';
     MedidasPage,
     RecomendacaoPage,
     MedidasAddPage,
-    UploadImagePage
+    UploadImagePage,
+    AlterarSenhaPage
   ],
   providers: [
     StatusBar,
