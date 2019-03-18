@@ -119,7 +119,7 @@ export class MyApp {
         let nav = this.app.getActiveNavs()[0];
         let activeView = nav.getActive();
         // Checks if can go back before show up the alert
-        if(activeView.name === 'HomePage' || activeView.name === 'LoginPage') {
+        if(activeView.name === 'HomePage' || activeView.name === 'PlanoPage' || activeView.name === 'LoginPage') {
             if (nav.canGoBack()){
                 nav.pop();
             } else {

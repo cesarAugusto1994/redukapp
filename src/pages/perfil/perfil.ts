@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IonicPage, NavController, NavParams, LoadingController, Loading, ToastController, ActionSheetController, AlertController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading, ToastController, ActionSheetController, AlertController, Events, Platform } from 'ionic-angular';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
 import { AuthProvider } from './../../providers/auth/auth';
 import { PacienteProvider } from './../../providers/paciente/paciente';
@@ -15,12 +15,15 @@ import { CONSTANTS } from '../../configs/constants/constants';
 import { Paciente } from '../../models/paciente/paciente';
 
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera';
 
 import { AlterarSenhaPage } from '../alterar-senha/alterar-senha';
 import { UploadImagePage } from '../upload-image/upload-image';
 
 import { Db } from '../../storage/db';
+
+import { File } from '@ionic-native/file';
+import { FilePath } from '@ionic-native/file-path';
 
 /**
  * Generated class for the PerfilPage page.
@@ -57,8 +60,11 @@ export class PerfilPage {
    private log;
 
   constructor(public http: HttpClient,
+    public platform: Platform,
     private nativePageTransitions: NativePageTransitions,
     public navCtrl: NavController,
+    private file: File,
+    private filePath: FilePath,
     private transfer: FileTransfer,
     private camera: Camera,
     public navParams: NavParams,
@@ -105,6 +111,90 @@ export class PerfilPage {
     this.navCtrl.setRoot(UploadImagePage);
   }
 
+  async selectImage() {
+      const actionSheet = await this.actionSheetCtrl.create({
+          title: "Selecione a imagem",
+          buttons: [{
+                  text: 'Galeria',
+                  handler: () => {
+                      this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+                  }
+              },
+              {
+                  text: 'Camera',
+                  handler: () => {
+                      this.takePicture(this.camera.PictureSourceType.CAMERA);
+                  }
+              },
+              {
+                  text: 'Cancelar',
+                  role: 'cancel'
+              }
+          ]
+      });
+      await actionSheet.present();
+  }
+
+  private createFileName() {
+    var d = new Date(),
+    n = d.getTime(),
+    newFileName =  n + ".jpg";
+    return newFileName;
+  }
+
+  takePicture(sourceType: PictureSourceType) {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      sourceType: sourceType,
+      saveToPhotoAlbum: false,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit: true,
+      correctOrientation: true
+    }
+
+    this.camera.getPicture(options).then((imagePath) => {
+    // Special handling for Android library
+    if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
+        this.filePath.resolveNativePath(imagePath)
+          .then(filePath => {
+            let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+            let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+            this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+          });
+      } else {
+        var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+        var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+        this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+      }
+
+      this.imageURI = imagePath;
+
+      this.uploadFile();
+
+    }, (err) => {
+      //this.presentToast('Error while selecting image.');
+    });
+
+  }
+
+  private copyFileToLocalDir(namePath, currentName, newFileName) {
+    this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
+      this.imageURI = newFileName;
+    }, error => {
+      this.presentToast('Erro ao salvar imagem.');
+    });
+  }
+
+  public pathForImage(img) {
+    if (img === null) {
+      return '';
+    } else {
+      return this.file.dataDirectory + img;
+    }
+  }
+
   presentActionSheet() {
       const actionSheet = this.actionSheetCtrl.create({
         title: 'Suas Opções',
@@ -122,7 +212,7 @@ export class PerfilPage {
             text: 'Cancelar',
             role: 'cancel',
             handler: () => {
-              console.log('Cancel clicked');
+              //console.log('Cancel clicked');
             }
           }
         ]
@@ -239,7 +329,8 @@ export class PerfilPage {
       //console.log((err));
 
       loader.dismiss();
-      this.presentToast(err);
+
+      //this.presentToast(err);
 
       //this.log = JSON.stringify(err);
 
@@ -270,7 +361,7 @@ export class PerfilPage {
   }
 
   goToAlterarSenha() {
-    this.navCtrl.setRoot(AlterarSenhaPage);
+    this.navCtrl.push(AlterarSenhaPage);
   }
 
   toEdit() {

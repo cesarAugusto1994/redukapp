@@ -53,6 +53,8 @@ import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 
 import { SwipeSegmentDirective } from '../directives/swipe-segment';
 
+import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free/ngx';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -109,6 +111,7 @@ import { SwipeSegmentDirective } from '../directives/swipe-segment';
     FilePath,
     Camera,
     NativePageTransitions,
+    AdMobFree
   ]
 })
 export class AppModule {}
